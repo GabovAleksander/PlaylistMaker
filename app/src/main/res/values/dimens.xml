@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="FontSizeMenu">26sp</dimen>
+    <dimen name="FontSizeSettingsMenu">19sp</dimen>
+    <dimen name="CornerRadius">16dp</dimen>
+    <dimen name="Margin">12dp</dimen>
+    <dimen name="LayoutHeaderWidth">304dp</dimen>
+    <dimen name="ButtonBackLayoutSize">48dp</dimen>
+    <dimen name="IconSize">24dp</dimen>
+</resources>

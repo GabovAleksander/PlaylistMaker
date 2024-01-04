@@ -1,18 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/backGround">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+        <FrameLayout
+            android:layout_width="@dimen/LayoutHeaderWidth"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp">
+            <FrameLayout
+                android:layout_width="208dp"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/app_name"
+                    android:textAllCaps="false"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/FontSizeMenu"
+                    android:layout_marginTop="-2dp"
+                    android:layout_marginStart="@dimen/Margin"
+                    android:layout_marginBottom="@dimen/Margin"/>
+            </FrameLayout>
+        </FrameLayout>
+    </FrameLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/search"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:textColorLink="@color/black"
+            android:text="@string/search"
+            android:textSize="@dimen/FontSizeMenu"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:iconGravity="textStart"
+            app:icon="@drawable/magnifier"
+            app:iconSize="@dimen/IconSize"
+            app:cornerRadius="@dimen/CornerRadius"
+            app:iconTint="@color/black"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/media"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:textColorLink="@color/black"
+            android:text="@string/media"
+            android:textSize="@dimen/FontSizeMenu"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:iconGravity="textStart"
+            app:icon="@drawable/sign"
+            app:iconSize="@dimen/IconSize"
+            app:cornerRadius="@dimen/CornerRadius"
+            app:iconTint="@color/black"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settings"
+            android:layout_marginBottom="28dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:textColorLink="@color/black"
+            android:text="@string/settings"
+            android:textSize="@dimen/FontSizeMenu"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:iconGravity="textStart"
+            app:icon="@drawable/gear"
+            app:iconSize="@dimen/IconSize"
+            app:cornerRadius="@dimen/CornerRadius"
+            app:iconTint="@color/black"/>
+
+    </LinearLayout>
+</LinearLayout>
