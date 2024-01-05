@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 
 class SettingsActivity : AppCompatActivity() {
@@ -11,10 +12,10 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val buttonBack=findViewById<FrameLayout>(R.id.back)
-        val buttonShare=findViewById<FrameLayout>(R.id.Share)
-        val buttonAgreement=findViewById<FrameLayout>(R.id.Agreement)
-        val buttonSupport=findViewById<FrameLayout>(R.id.Support)
+        val buttonBack=findViewById<TextView>(R.id.buttonBack)
+        val buttonShare=findViewById<FrameLayout>(R.id.buttonShare)
+        val buttonAgreement=findViewById<FrameLayout>(R.id.buttonAgreement)
+        val buttonSupport=findViewById<FrameLayout>(R.id.buttonSupport)
 
 
         buttonBack.setOnClickListener {

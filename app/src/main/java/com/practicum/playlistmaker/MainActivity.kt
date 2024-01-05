@@ -11,9 +11,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val buttonSearch=findViewById<MaterialButton>(R.id.search)
-        val buttonMedia=findViewById<MaterialButton>(R.id.media)
-        val buttonSettings=findViewById<MaterialButton>(R.id.settings)
+        val buttonSearch=findViewById<MaterialButton>(R.id.buttonSearch)
+        val buttonMedia=findViewById<MaterialButton>(R.id.buttonMedia)
+        val buttonSettings=findViewById<MaterialButton>(R.id.buttonSettings)
 
         buttonSearch.setOnClickListener { val displayIntent = Intent(this, SearchActivity::class.java)
             startActivity(displayIntent)}

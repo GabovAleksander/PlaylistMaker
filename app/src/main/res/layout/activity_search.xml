@@ -1,53 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp">
-
-        <LinearLayout
-            android:baselineAligned="false"
-            android:layout_width="@dimen/LayoutHeaderWidth"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:layout_gravity="start"
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:id="@+id/back"
-                android:layout_width="@dimen/ButtonBackLayoutSize"
-                android:layout_height="@dimen/ButtonBackLayoutSize">
-                <ImageView
-                    android:src="@drawable/arrowback"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="@dimen/Margin"
-                    android:contentDescription="@string/back"
-                    android:gravity="top">
-                </ImageView>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="208dp"
-                android:layout_height="match_parent"
-                android:paddingTop="10dp"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:text="@string/search"
-                    android:textAllCaps="false"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/FontSizeMenu"
-                    android:layout_marginTop="-2dp"
-                    android:layout_marginStart="@dimen/Margin"
-                    android:layout_marginBottom="@dimen/Margin"/>
-            </FrameLayout>
-        </LinearLayout>
-    </FrameLayout>
+    <TextView
+        android:id="@+id/buttonBack"
+        android:drawablePadding="@dimen/margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/search"
+        android:textAllCaps="false"
+        android:includeFontPadding="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fontSizeMenu"
+        android:layout_margin="@dimen/margin"
+        app:drawableStartCompat="@drawable/icon_arrowback" />
 </LinearLayout>

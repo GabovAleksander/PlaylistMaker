@@ -7,5 +7,5 @@
     <string name="darkTheme">Темная тема</string>
     <string name="shareApp">Поделиться приложением</string>
     <string name="writeToSupport">Написать в поддержку</string>
-    <string name="Agreement">Пользовательское соглашение</string>
+    <string name="agreement">Пользовательское соглашение</string>
 </resources>
