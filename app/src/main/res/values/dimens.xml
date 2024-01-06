@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fontSizeMenu">24sp</dimen>
+    <dimen name="mainMargin">24sp</dimen>
+    <dimen name="fontSizeSettingsMenu">20sp</dimen>
+    <dimen name="cornerRadius">16dp</dimen>
+    <dimen name="margin">12dp</dimen>
+    <dimen name="marginTopBottom">16dp</dimen>
+    <dimen name="layoutHeaderWidth">304dp</dimen>
+    <dimen name="buttonBackLayoutSize">48dp</dimen>
+    <dimen name="iconSize">24dp</dimen>
+    <dimen name="menuRowHeight">64dp</dimen>
+    <dimen name="heightTextView">20dp</dimen>
+    <dimen name="marginTextView">20dp</dimen>
+    <dimen name="marginStart">16dp</dimen>
+</resources>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/buttonBack"
+        android:drawablePadding="@dimen/margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/settings"
+        android:textAllCaps="false"
+        android:includeFontPadding="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fontSizeMenu"
+        android:layout_margin="@dimen/margin"
+        app:drawableStartCompat="@drawable/icon_arrowback" />
+
+
+   <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/menuRowHeight"
+        android:layout_marginTop="@dimen/mainMargin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/marginStart"
+            android:text="@string/darkTheme"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fontSizeSettingsMenu"
+
+            />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/margin"
+            android:layout_gravity="end"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
+        </Switch>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/buttonShare"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/menuRowHeight">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/marginStart"
+            android:text="@string/shareApp"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fontSizeSettingsMenu"
+            />
+
+        <ImageView
+            android:src="@drawable/icon_share"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/margin"
+            android:contentDescription="@string/shareApp"
+            android:layout_gravity="end">
+        </ImageView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/buttonSupport"
+        android:layout_width="match_parent"
+        android:gravity="top"
+        android:layout_height="@dimen/menuRowHeight">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/marginStart"
+            android:text="@string/writeToSupport"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fontSizeSettingsMenu"
+            />
+
+        <ImageView
+            android:src="@drawable/icon_support"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/margin"
+            android:contentDescription="@string/writeToSupport"
+            android:layout_gravity="end">
+        </ImageView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/buttonAgreement"
+        android:layout_width="match_parent"
+        android:gravity="top"
+        android:layout_height="@dimen/menuRowHeight">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/marginStart"
+            android:text="@string/agreement"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fontSizeSettingsMenu"
+            />
+
+        <ImageView
+            android:src="@drawable/icon_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/margin"
+            android:contentDescription="@string/agreement"
+            android:layout_gravity="end">
+        </ImageView>
+
+    </FrameLayout>
+</LinearLayout>
