@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    style="@style/layout">
 
-    <TextView
-        android:id="@+id/buttonBack"
-        android:drawablePadding="@dimen/margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:text="@string/media"
-        android:textAllCaps="false"
-        android:includeFontPadding="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/fontSizeMenu"
-        android:layout_margin="@dimen/margin"
-        app:drawableStartCompat="@drawable/icon_arrowback" />
+    <LinearLayout
+        style="@style/layoutUp">
+
+        <ImageView
+            android:id="@+id/buttonBack"
+            style="@style/buttonBack"/>
+
+        <TextView
+            android:text="@string/media"
+            style="@style/header"/>
+    </LinearLayout>
 </LinearLayout>
