@@ -15,14 +15,9 @@
             style="@style/header"/>
     </LinearLayout>
 
-<LinearLayout
+<FrameLayout
     style="@style/searchLayout"
     >
-
-    <ImageView
-        style="@style/searchLayoutImage"
-        android:layout_gravity="start"
-        android:src="@drawable/icon_magnifier" />
     <EditText
         style="@style/editTextSearch"
         android:id="@+id/editTextSearch"/>
@@ -33,6 +28,6 @@
         android:layout_gravity="end"
         android:src="@drawable/icon_clear"
         android:visibility="gone"/>
-</LinearLayout>
+</FrameLayout>
 
 </LinearLayout>

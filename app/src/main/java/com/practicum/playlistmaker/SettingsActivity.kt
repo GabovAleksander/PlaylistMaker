@@ -16,12 +16,12 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val buttonBack=findViewById<ImageView>(R.id.buttonBack)
-        val switchButton=findViewById<Switch>(R.id.switchButton)
-        val switchLayout=findViewById<FrameLayout>(R.id.switchLayout)
-        val buttonShare=findViewById<FrameLayout>(R.id.buttonShare)
-        val buttonAgreement=findViewById<FrameLayout>(R.id.buttonAgreement)
-        val buttonSupport=findViewById<FrameLayout>(R.id.buttonSupport)
+        val buttonBack = findViewById<ImageView>(R.id.buttonBack)
+        val switchButton = findViewById<Switch>(R.id.switchButton)
+        val switchLayout = findViewById<FrameLayout>(R.id.switchLayout)
+        val buttonShare = findViewById<FrameLayout>(R.id.buttonShare)
+        val buttonAgreement = findViewById<FrameLayout>(R.id.buttonAgreement)
+        val buttonSupport = findViewById<FrameLayout>(R.id.buttonSupport)
 
 
         buttonBack.setOnClickListener {
@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
 
 
         switchLayout.setOnClickListener {
-            switchButton.isChecked=!switchButton.isChecked
+            switchButton.isChecked = !switchButton.isChecked
             changeTheme()
         }
 
@@ -41,35 +41,37 @@ class SettingsActivity : AppCompatActivity() {
         }
         //Поделиться приложением
         buttonShare.setOnClickListener {
-            val messengerIntent=Intent(Intent.ACTION_SEND)
-            messengerIntent.putExtra(Intent.EXTRA_TEXT,getResources().getString(R.string.urlToCourse))
+            val messengerIntent = Intent(Intent.ACTION_SEND)
+            messengerIntent.putExtra(
+                Intent.EXTRA_TEXT, getResources().getString(R.string.urlToCourse)
+            )
             messengerIntent.setType("text/plain")
             startActivity(messengerIntent)
-            //Toast.makeText(this@SettingsActivity, "Делимся приложением!", Toast.LENGTH_SHORT).show()
         }
         //Пользовательское соглашение
         buttonAgreement.setOnClickListener {
-            val browserIntent=Intent(Intent.ACTION_VIEW,Uri.parse(getResources().getString(R.string.offer)))
+            val browserIntent =
+                Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.offer)))
             startActivity(browserIntent);
-            //Toast.makeText(this@SettingsActivity,"Читаем пользовательское соглашение!", Toast.LENGTH_SHORT).show()
         }
 
         //Поддержка
         buttonSupport.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
-            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getResources().getString(R.string.email)))
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT,getResources().getString(R.string.topic))
+            shareIntent.putExtra(
+                Intent.EXTRA_EMAIL, arrayOf(getResources().getString(R.string.email))
+            )
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.topic))
             shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.messageBody))
             startActivity(shareIntent)
-                //Toast.makeText(this@SettingsActivity,"Обращаемся в поддержку!", Toast.LENGTH_SHORT).show()
         }
 
 
     }
 
-    private fun changeTheme(){
-        Toast.makeText(this@SettingsActivity,"Переключаем тему!", Toast.LENGTH_SHORT).show()
+    private fun changeTheme() {
+        Toast.makeText(this@SettingsActivity, "Переключаем тему!", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -9,8 +9,9 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        val buttonBack=findViewById<ImageView>(R.id.buttonBack)
+        val buttonBack = findViewById<ImageView>(R.id.buttonBack)
         buttonBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()}
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 }
