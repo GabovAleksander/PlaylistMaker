@@ -87,7 +87,7 @@
         <item name="android:thumbTint">@color/textGray</item>
         <item name="tint">@color/textGray</item>
     </style>
-    <!--Поиск-->
+    <!--Поиск -->
     <style name="searchLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
