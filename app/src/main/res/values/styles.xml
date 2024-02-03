@@ -119,4 +119,29 @@
         <item name="android:layout_height">match_parent</item>
         <item name="tint">@color/textGray</item>
     </style>
+    <style name="searchResImage">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_marginVertical">@dimen/marginTopBottomSearchImage</item>
+        <item name="android:layout_marginHorizontal">@dimen/margin</item>
+    </style>
+    <style name="searchResLine1">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textSize">@dimen/fontSizeSearchTrackName</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_alignParentTop">@dimen/marginTopSearchText</item>
+        <item name="android:maxLines">1</item>
+        <item name="singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="searchResLine2">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/fontSizeSearchGroupAndTime</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">@color/textGray</item>
+        <item name="android:maxLines">1</item>
+        <item name="singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 </resources>
