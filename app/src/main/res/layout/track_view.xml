@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/artwork"
+        style="@style/searchResImage"
+        android:layout_height="@dimen/imageSizeSearch"
+        android:layout_width="@dimen/imageSizeSearch"
+        tools:src="@drawable/icon_no_picture" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/trackName"
+            style="@style/searchResLine1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            tools:text="Song Name" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/artistName"
+                style="@style/searchResLine2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                tools:text="Group name" />
+
+            <ImageView
+                style="@style/searchResLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/delimiter" />
+
+            <TextView
+                android:id="@+id/trackTime"
+                style="@style/searchResLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="19:55" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:layout_gravity="end|center"
+        android:src="@drawable/icon_forward" />
+</LinearLayout>

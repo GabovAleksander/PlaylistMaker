@@ -3,9 +3,15 @@
     <dimen name="fontSizeMenu">22sp</dimen>
     <dimen name="mainMargin">24sp</dimen>
     <dimen name="fontSizeSettingsMenu">16sp</dimen>
+    <dimen name="fontSizeSearchTrackName">16sp</dimen>
+    <dimen name="fontSizeSearchGroupAndTime">11sp</dimen>
+    <dimen name="fontWeightSearch">400</dimen>
     <dimen name="cornerRadius">16dp</dimen>
     <dimen name="margin">12dp</dimen>
     <dimen name="marginTopBottom">16dp</dimen>
+    <dimen name="marginTopBottomSearchImage">8dp</dimen>
+    <dimen name="imageSizeSearch">45dp</dimen>
+    <dimen name="marginTopSearchText">14dp</dimen>
     <dimen name="layoutHeaderWidth">304dp</dimen>
     <dimen name="buttonBackLayoutSize">48dp</dimen>
     <dimen name="iconSize">24dp</dimen>

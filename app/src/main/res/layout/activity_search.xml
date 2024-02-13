@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/layout">
 
-    <LinearLayout
-        style="@style/layoutUp">
+    <LinearLayout style="@style/layoutUp">
 
         <ImageView
             android:id="@+id/buttonBack"
-            style="@style/buttonBack"/>
+            style="@style/buttonBack" />
 
         <TextView
-            android:text="@string/search"
-            style="@style/header"/>
+            style="@style/header"
+            android:text="@string/search" />
     </LinearLayout>
 
-<FrameLayout
-    style="@style/searchLayout"
-    >
-    <EditText
-        style="@style/editTextSearch"
-        android:id="@+id/editTextSearch"/>
+    <FrameLayout style="@style/searchLayout">
 
-    <ImageView
-        android:id="@+id/clearIcon"
-        style="@style/searchLayoutImage"
-        android:layout_gravity="end"
-        android:src="@drawable/icon_clear"
-        android:visibility="gone"/>
-</FrameLayout>
+        <EditText
+            android:id="@+id/editTextSearch"
+            style="@style/editTextSearch" />
 
+        <ImageView
+            android:id="@+id/clearIcon"
+            style="@style/searchLayoutImage"
+            android:layout_gravity="end"
+            android:src="@drawable/icon_clear"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackList"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
