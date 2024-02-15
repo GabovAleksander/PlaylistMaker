@@ -11,4 +11,7 @@
     <string name="agreement">User agreement</string>
     <string name="topic">A message to the developers of the Playlist Makers application</string>
     <string name="messageBody">Thanks to the developers for the cool application!</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="update">Update</string>
 </resources>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout">
 
     <LinearLayout style="@style/layoutUp">
@@ -24,14 +26,53 @@
             style="@style/searchLayoutImage"
             android:layout_gravity="end"
             android:src="@drawable/icon_clear"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trackList"
-        android:layout_marginTop="@dimen/margin"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trackList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/errLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="@dimen/paddingErrMessageTop"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/errPicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_network_problem"/>
+
+            <TextView
+                android:id="@+id/errMessage"
+                style="@style/errMessageText"
+                android:layout_width="@dimen/errTextWidth"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="@dimen/marginTopBottom"
+                android:textAlignment="center"
+                tools:text="Сообщение об ошибке" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/errUpdateButton"
+                style="@style/updateButton"
+                android:layout_marginTop="@dimen/marginTopBottom"
+                android:text="@string/update" />
+        </LinearLayout>
+
+
+    </FrameLayout>
 </LinearLayout>
