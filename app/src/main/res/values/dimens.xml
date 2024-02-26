@@ -5,6 +5,9 @@
     <dimen name="fontSizeSettingsMenu">16sp</dimen>
     <dimen name="fontSizeSearchTrackName">16sp</dimen>
     <dimen name="fontSizeSearchGroupAndTime">11sp</dimen>
+    <dimen name="fontSizeButtonUpdate">14sp</dimen>
+    <dimen name="fontSizeErrText">19sp</dimen>
+    <dimen name="errTextWidth">300dp</dimen>
     <dimen name="fontWeightSearch">400</dimen>
     <dimen name="cornerRadius">16dp</dimen>
     <dimen name="margin">12dp</dimen>
@@ -19,4 +22,5 @@
     <dimen name="heightTextView">20dp</dimen>
     <dimen name="marginTextView">20dp</dimen>
     <dimen name="marginStart">16dp</dimen>
+    <dimen name="paddingErrMessageTop">100dp</dimen>
 </resources>
