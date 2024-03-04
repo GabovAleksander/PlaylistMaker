@@ -12,7 +12,9 @@
     <dimen name="cornerRadius">16dp</dimen>
     <dimen name="margin">12dp</dimen>
     <dimen name="marginTopBottom">16dp</dimen>
+    <dimen name="marginButton">32dp</dimen>
     <dimen name="marginTopBottomSearchImage">8dp</dimen>
+    <dimen name="marginHistoryHeader">8dp</dimen>
     <dimen name="imageSizeSearch">45dp</dimen>
     <dimen name="marginTopSearchText">14dp</dimen>
     <dimen name="layoutHeaderWidth">304dp</dimen>

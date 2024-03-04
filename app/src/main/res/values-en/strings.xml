@@ -14,4 +14,6 @@
     <string name="nothing_found">Nothing found</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="update">Update</string>
+    <string name="history">you were looking for</string>
+    <string name="clear_history">Clear history</string>
 </resources>
