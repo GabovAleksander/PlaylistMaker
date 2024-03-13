@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,14 +31,18 @@ class SearchActivity : AppCompatActivity() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private lateinit var errMessage: TextView
+    private lateinit var historyHeader: TextView
     private lateinit var errPicture: ImageView
     private lateinit var errLayout: LinearLayout
     private lateinit var errUpdateButton: MaterialButton
+    private lateinit var historyClearButton: MaterialButton
+    private lateinit var searchHistory: SearchHistory
     private val iTunesService = retrofit.create(ITunesAPI::class.java)
-    private val trackList = ArrayList<Track>()
-    private val adapter = TrackListAdapter(trackList)
+    private val trackList = mutableListOf<Track>()
+    private val historyTrackList = mutableListOf<Track>()
+    private lateinit var adapter:TrackListAdapter
+    //private lateinit var historyAdapter:TrackListAdapter
     private lateinit var inputEditText: EditText
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -46,13 +51,55 @@ class SearchActivity : AppCompatActivity() {
         errLayout = findViewById(R.id.errLayout)
         errUpdateButton = findViewById(R.id.errUpdateButton)
         inputEditText = findViewById<EditText>(R.id.editTextSearch)
+        historyHeader = findViewById<TextView>(R.id.historyHeader)
+        historyClearButton = findViewById(R.id.clearHistory)
 
         val buttonBack = findViewById<ImageView>(R.id.buttonBack)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
         val recyclerView = findViewById<RecyclerView>(R.id.trackList)
+        val savedHistory = getSharedPreferences(HISTORY_KEY, MODE_PRIVATE)
+        //val searchHistory: SearchHistory
 
+        clearButton.visibility=View.GONE
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        adapter= TrackListAdapter(trackList,savedHistory)
         recyclerView.adapter = adapter
+        //historyAdapter = TrackListAdapter(historyTrackList,savedHistory)
+        if (savedHistory.getString(HISTORY_KEY, "[]").equals("[]")) {
+            historyHeader.visibility = View.GONE
+            historyClearButton.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+            savedHistory.edit()
+                .putString(HISTORY_KEY, Gson().toJson(listOf<Track>()))
+                .apply()
+            searchHistory = SearchHistory(savedHistory)
+
+        } else {
+            historyHeader.visibility = View.VISIBLE
+            historyClearButton.visibility = View.VISIBLE
+            searchHistory = SearchHistory(savedHistory)
+            historyTrackList.clear()
+            historyTrackList.addAll(searchHistory.loadHistory())
+            //
+            adapter.items.clear()
+            adapter.items.addAll(historyTrackList)
+            adapter.notifyDataSetChanged()
+            //recyclerView.adapter = historyAdapter
+            //historyAdapter.notifyDataSetChanged()
+            recyclerView.visibility = View.VISIBLE
+        }
+
+
+        historyClearButton.setOnClickListener {
+            adapter.searchHistory.clearHistory()
+            historyTrackList.clear()
+            adapter.items.clear()
+            adapter.items.addAll(historyTrackList)
+            adapter.notifyDataSetChanged()
+            historyHeader.visibility = View.GONE
+            historyClearButton.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+        }
 
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -65,7 +112,7 @@ class SearchActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        errUpdateButton.setOnClickListener{
+        errUpdateButton.setOnClickListener {
             sendRequest()
         }
 
@@ -74,7 +121,19 @@ class SearchActivity : AppCompatActivity() {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
             clearPlaylist()
+            adapter.items.clear()
+            adapter.items.addAll(historyTrackList)
         }
+
+        inputEditText.setOnFocusChangeListener { view, hasFocus ->
+            historyClearButton.visibility = if (hasFocus && inputEditText.text.isEmpty() && historyTrackList.size>0) View.VISIBLE else View.GONE
+            historyHeader.visibility = if (hasFocus && inputEditText.text.isEmpty() && historyTrackList.size>0) View.VISIBLE else View.GONE
+            //
+            adapter.items.clear()
+            adapter.items.addAll(historyTrackList)
+            //recyclerView.adapter=historyAdapter
+        }
+
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(
@@ -87,10 +146,29 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
 
+                if (s.isNullOrEmpty()) {
+                    historyTrackList.clear()
+                    historyTrackList.addAll(adapter.searchHistory.loadHistory())
+                    if(historyTrackList.size>0) {
+                        //
+                        adapter.items.clear()
+                        adapter.items.addAll(historyTrackList)
+                        adapter.notifyDataSetChanged()
+                        //historyAdapter.notifyDataSetChanged()
+                        //recyclerView.adapter = historyAdapter
+                        recyclerView.visibility = View.VISIBLE
+                        historyHeader.visibility = View.VISIBLE
+                        historyClearButton.visibility = View.VISIBLE
+                    }
                 } else {
+                    adapter.items.clear()
+                    adapter.items.addAll(trackList)
                     currentValue = s.toString()
+                    //recyclerView.adapter=adapter
+                    recyclerView.visibility=View.VISIBLE
+                    historyHeader.visibility=View.GONE
+                    historyClearButton.visibility=View.GONE
                 }
                 clearButton.visibility = clearButtonVisibility(s)
             }
@@ -100,6 +178,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
+        inputEditText.requestFocus()
     }
 
 
@@ -150,7 +229,7 @@ class SearchActivity : AppCompatActivity() {
                         } else {
                             showMessage(
                                 getString(R.string.something_went_wrong),
-                                R.drawable.icon_network_problem,true
+                                R.drawable.icon_network_problem, true
                             )
                         }
                     }
@@ -158,7 +237,7 @@ class SearchActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
                         showMessage(
                             getString(R.string.something_went_wrong),
-                            R.drawable.icon_network_problem,true
+                            R.drawable.icon_network_problem, true
                         )
                     }
                 })
@@ -167,7 +246,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
 
-    private fun showMessage(text: String, icon: Int, showButton: Boolean=false) {
+    private fun showMessage(text: String, icon: Int, showButton: Boolean = false) {
         clearPlaylist()
         errLayout.visibility = View.VISIBLE
         errPicture.setImageResource(icon)
@@ -181,15 +260,20 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun clearPlaylist(){
+    private fun clearPlaylist() {
         trackList.clear()
         adapter.notifyDataSetChanged()
     }
+
+
     companion object {
         const val SAVED_TEXT = "SAVED_TEXT"
         const val TEXT = ""
+        const val HISTORY_KEY = "history"
+        const val HISTORY_SIZE = 10
     }
 }
+
 
 
 

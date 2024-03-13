@@ -19,15 +19,15 @@
    <FrameLayout
        android:id="@+id/switchLayout"
         style="@style/settingRow">
-        <TextView
-            android:text="@string/darkTheme"
-            style="@style/settingRowText"/>
 
-       <Switch
-           android:id="@+id/switchButton"
+
+       <com.google.android.material.switchmaterial.SwitchMaterial
+           android:id="@+id/themeSwitcher"
            style="@style/settingSwitch"
-           android:layout_width="wrap_content"
-           tools:ignore="UseSwitchCompatOrMaterialXml"></Switch>
+           android:text="@string/darkTheme"
+           android:layout_gravity="start"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"/>
     </FrameLayout>
 
     <FrameLayout

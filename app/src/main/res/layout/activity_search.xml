@@ -29,16 +29,52 @@
             android:visibility="visible" />
     </FrameLayout>
 
-    <FrameLayout
+ <!--   <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
+-->
+       <!-- <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trackList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin"
-            android:layout_weight="1"/>
+            tools:listitem="@layout/track_view"
+            android:layout_weight="1"/>-->
+
+        <LinearLayout
+            android:id="@+id/trackLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/historyHeader"
+                style="@style/searchHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/history"
+                android:visibility="visible"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trackList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/track_view"
+                android:layout_weight="1"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearHistory"
+                style="@style/updateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/marginButton"
+                android:layout_marginTop="@dimen/mainMargin"
+                android:text="@string/clear_history"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/errLayout"
@@ -74,5 +110,5 @@
         </LinearLayout>
 
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 </LinearLayout>
