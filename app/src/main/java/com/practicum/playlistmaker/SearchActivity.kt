@@ -22,7 +22,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+const val TRACK_KEY="track_key"
 class SearchActivity : AppCompatActivity() {
     private var currentValue: String = TEXT
     private val iTunesbasedUrl = "https://itunes.apple.com"
