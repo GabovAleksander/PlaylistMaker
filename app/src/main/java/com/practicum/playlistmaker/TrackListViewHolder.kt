@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ExpandableListView.OnChildClickListener
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,7 @@ class TrackListViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
     private val trackTime = super.itemView.findViewById<TextView>(R.id.trackTime)
     private val artworkUrl100 = super.itemView.findViewById<ImageView>(R.id.artwork)
 
-    fun bind(item: Track) {
+    fun bind(item: Track, clickListener: (Track) -> Unit) {
         trackName.text = item.trackName
         artistName.text = item.artistName.trim()
         trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(item.trackTimeMillis)
@@ -30,6 +31,8 @@ class TrackListViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
             .centerInside()
             .transform(RoundedCorners(dpToPx(2.0F, itemView.context)))
             .into(artworkUrl100)
+        artistName.requestLayout()
+        itemView.setOnClickListener{clickListener(item)}
     }
 
     fun dpToPx(dp: Float, context: Context): Int {

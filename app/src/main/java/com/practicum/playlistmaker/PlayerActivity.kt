@@ -16,7 +16,7 @@ import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
 
-    var liked = false
+    private var liked = false
     private var playerState = STATE_DEFAULT
     private var mediaPlayer = MediaPlayer()
     private lateinit var playButton: Button
