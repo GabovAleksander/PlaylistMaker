@@ -48,6 +48,14 @@
             android:orientation="vertical"
             android:visibility="visible">
 
+            <ProgressBar android:id="@+id/progressBar"
+                android:layout_marginTop="@dimen/progressBarMarginTop"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/blue"
+                android:visibility="gone"/>
+
             <TextView
                 android:id="@+id/historyHeader"
                 style="@style/searchHeader"
@@ -74,6 +82,7 @@
                 android:layout_marginBottom="@dimen/marginButton"
                 android:layout_marginTop="@dimen/mainMargin"
                 android:text="@string/clear_history"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -108,6 +117,7 @@
                 android:layout_marginTop="@dimen/marginTopBottom"
                 android:text="@string/update" />
         </LinearLayout>
+
 
 
     <!--</FrameLayout>-->

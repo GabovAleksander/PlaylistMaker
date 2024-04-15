@@ -30,4 +30,5 @@
     <dimen name="marginTitle">8dp</dimen>
     <dimen name="marginTrackName">24dp</dimen>
     <dimen name="marginPlayTime">16dp</dimen>
+    <dimen name="progressBarMarginTop">184dp</dimen>
 </resources>
