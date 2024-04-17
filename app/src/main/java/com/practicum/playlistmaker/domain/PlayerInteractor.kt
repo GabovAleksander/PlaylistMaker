@@ -2,7 +2,13 @@ package com.practicum.playlistmaker.domain
 
 interface PlayerInteractor {
 
-    var playerState: Int
+    enum class Status(val value:Int){
+        STATE_DEFAULT(0),
+        STATE_PREPARED(1),
+        STATE_PLAYING(2),
+        STATE_PAUSED(3),
+    }
+    var playerState: Status
 
     var url: String?
     fun preparePlayer(callback: () -> Unit)

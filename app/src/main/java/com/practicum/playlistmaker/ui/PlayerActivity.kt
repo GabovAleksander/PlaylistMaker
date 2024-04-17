@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
-
+    private val delay = 300L
     private var liked = false
 
     private var mediaPlayer: PlayerInteractor = PlayerInteractorImpl()
@@ -105,9 +105,9 @@ class PlayerActivity : AppCompatActivity() {
     private fun updateTimer(): Runnable {
         return object : Runnable {
             override fun run() {
-                if (mediaPlayer.playerState == PlayerInteractorImpl.STATE_PLAYING) {
+                if (mediaPlayer.playerState == PlayerInteractor.Status.STATE_PLAYING) {
                     playTime.text = dateFormat.format(mediaPlayer.getCurrentPosition())
-                    mainThreadHandler?.postDelayed(this, PlayerInteractorImpl.UPDATE_DELAY)
+                    mainThreadHandler?.postDelayed(this, delay)
                 }
             }
         }
