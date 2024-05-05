@@ -1,12 +1,8 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui
 
-import android.content.Intent
-import android.content.SharedPreferences
-import android.os.Handler
-import android.os.Looper
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
+import com.practicum.playlistmaker.domain.models.Track
 
 class TrackListAdapter(var items: MutableList<Track>, private val clickListener: (Track) -> Unit) :
     RecyclerView.Adapter<TrackListViewHolder>() {

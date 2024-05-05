@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui
 
 import android.content.Context
 import android.content.Intent
@@ -21,6 +21,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.data.sharedPreferences.SearchHistory
+import com.practicum.playlistmaker.data.dto.TracksResponse
+import com.practicum.playlistmaker.data.network.ITunesAPI
+import com.practicum.playlistmaker.domain.models.Track
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +41,8 @@ class SearchActivity : AppCompatActivity() {
         .baseUrl(iTunesbasedUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    private val iTunesService = retrofit.create(ITunesAPI::class.java)
     private lateinit var errMessage: TextView
     private lateinit var historyHeader: TextView
     private lateinit var errPicture: ImageView
@@ -44,7 +51,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyClearButton: MaterialButton
     private lateinit var searchHistory: SearchHistory
     private lateinit var progressBar: ProgressBar
-    private val iTunesService = retrofit.create(ITunesAPI::class.java)
+
     private val trackList = mutableListOf<Track>()
     private val historyTrackList = mutableListOf<Track>()
     private lateinit var adapter: TrackListAdapter
@@ -72,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
 
         clearButton.isVisible = false
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        adapter = TrackListAdapter(trackList, {item:Track->clickOnTrack(item)})
+        adapter = TrackListAdapter(trackList, {item: Track ->clickOnTrack(item)})
         recyclerView.adapter = adapter
         //historyAdapter = TrackListAdapter(historyTrackList,savedHistory)
         if (savedHistory.getString(HISTORY_KEY, "[]").equals("[]")) {
@@ -228,7 +235,7 @@ class SearchActivity : AppCompatActivity() {
                         if (response.code() == 200) {
                             trackList.clear()
                             if (response.body()?.results?.isNotEmpty() == true) {
-                                trackList.addAll(response.body()?.results!!)
+                                trackList.addAll(response.body()?.results!!.toMutableList().map { a->Track(a.trackId, a.trackName, a.artistName, a.trackTimeMillis, a.artworkUrl100,a.previewUrl,a.collectionName,a.releaseDate,a.primaryGenreName,a.country) })
                                 adapter.notifyDataSetChanged()
                             }
                             if (trackList.isEmpty()) {
@@ -272,7 +279,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun clickOnTrack(item:Track){
+    private fun clickOnTrack(item: Track){
         if(clickDebounce()) {
             searchHistory.saveTrack(item)
             val context = this
