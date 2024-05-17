@@ -2,7 +2,7 @@ package com.practicum.playlistmaker.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.search.domain.Track
 
 class TrackListAdapter(var items: MutableList<Track>, private val clickListener: (Track) -> Unit) :
     RecyclerView.Adapter<TrackListViewHolder>() {
