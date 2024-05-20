@@ -11,18 +11,16 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
-import com.practicum.playlistmaker.player.domain.TrackDto
-import com.practicum.playlistmaker.search.data.ILocalStorage
 import com.practicum.playlistmaker.search.domain.Track
-import com.practicum.playlistmaker.search.model.mapToTrackDto
 import com.practicum.playlistmaker.search.ui.adapters.TrackAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val TRACK_KEY = "track_key"
 
 class SearchActivity : AppCompatActivity() {
-    private lateinit var binding:ActivitySearchBinding
-    private lateinit var viewModel: SearchViewModel
-    private lateinit var router:Router
+    private lateinit var binding: ActivitySearchBinding
+    private val viewModel by viewModel<SearchViewModel>()
+    private lateinit var router: Router
     private val trackListAdapter = TrackAdapter {
         clickOnTrack(it)
     }
@@ -33,15 +31,10 @@ class SearchActivity : AppCompatActivity() {
 
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
         viewModel.apply {
             observeState().observe(this@SearchActivity) {
                 render(it)
-            }
-
-            observeShowToast().observe(this@SearchActivity) {
-                showToast(it)
             }
         }
 
@@ -60,21 +53,20 @@ class SearchActivity : AppCompatActivity() {
                 trackListAdapter.tracks = state.tracks
                 showContent(Content.SEARCH_RESULT)
             }
+
             is SearchState.ShowHistory -> {
                 trackListAdapter.tracks = state.tracks
                 showContent(Content.TRACKS_HISTORY)
             }
+
             is SearchState.Error -> {
                 binding.errMessage.text = state.message
                 showContent(Content.ERROR)
             }
+
             is SearchState.NothingFound -> showContent(Content.NOT_FOUND)
             is SearchState.Loading -> showContent(Content.LOADING)
         }
-    }
-
-    private fun showToast(additionalMessage: String) {
-        Toast.makeText(this, additionalMessage, Toast.LENGTH_LONG).show()
     }
 
     private fun initButtonBack() {
@@ -162,39 +154,48 @@ class SearchActivity : AppCompatActivity() {
     private fun showContent(content: Content) {
         when (content) {
             Content.NOT_FOUND -> {
-                binding.trackList.visibility=View.GONE
+                binding.trackList.visibility = View.GONE
                 binding.errLayout.visibility = View.VISIBLE
-                binding.errMessage.visibility=View.VISIBLE
-                binding.errMessage.text=resources.getText(R.string.nothing_found)
-                binding.errPicture.setImageDrawable(AppCompatResources.getDrawable(binding.root.context,R.drawable.icon_nothing_found))
+                binding.errMessage.visibility = View.VISIBLE
+                binding.errMessage.text = resources.getText(R.string.nothing_found)
+                binding.errPicture.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        binding.root.context,
+                        R.drawable.icon_nothing_found
+                    )
+                )
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
             }
 
             Content.ERROR -> {
-                binding.trackList.visibility=View.GONE
+                binding.trackList.visibility = View.GONE
                 binding.errLayout.visibility = View.VISIBLE
-                binding.errMessage.visibility=View.VISIBLE
-                binding.errMessage.text=resources.getText(R.string.something_went_wrong)
-                binding.errPicture.setImageDrawable(AppCompatResources.getDrawable(binding.root.context,R.drawable.icon_network_problem))
+                binding.errMessage.visibility = View.VISIBLE
+                binding.errMessage.text = resources.getText(R.string.something_went_wrong)
+                binding.errPicture.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        binding.root.context,
+                        R.drawable.icon_network_problem
+                    )
+                )
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
             }
 
             Content.TRACKS_HISTORY, Content.SEARCH_RESULT -> {
                 trackListAdapter.notifyDataSetChanged()
-                binding.trackLayout.visibility=View.VISIBLE
-                binding.trackList.visibility=View.VISIBLE
+                binding.trackLayout.visibility = View.VISIBLE
+                binding.trackList.visibility = View.VISIBLE
                 binding.errLayout.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
             }
 
 
-
             Content.LOADING -> {
                 //binding.trackLayout.visibility = View.GONE
-                binding.clearHistory.visibility=View.GONE
-                binding.historyHeader.visibility=View.GONE
+                binding.clearHistory.visibility = View.GONE
+                binding.historyHeader.visibility = View.GONE
                 binding.trackList.visibility = View.GONE
                 binding.errLayout.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE

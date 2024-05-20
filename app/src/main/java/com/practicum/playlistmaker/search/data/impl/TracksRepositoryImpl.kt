@@ -3,42 +3,53 @@ package com.practicum.playlistmaker.search.data.impl
 import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.Resource
 import com.practicum.playlistmaker.search.data.NetworkClient
+import com.practicum.playlistmaker.search.data.SharedPreferencesHistoryStorage
 import com.practicum.playlistmaker.search.data.network.TracksRequest
 import com.practicum.playlistmaker.search.data.network.TracksResponse
-import com.practicum.playlistmaker.search.data.storage.LocalStorage
 import com.practicum.playlistmaker.search.domain.Track
 import com.practicum.playlistmaker.search.domain.TracksRepository
-import com.practicum.playlistmaker.search.model.mapToTrack
-import com.practicum.playlistmaker.search.model.mapToTrackDto
 
-import kotlin.math.exp
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient, private val localStorage:
-    LocalStorage
+    SharedPreferencesHistoryStorage
 ) : TracksRepository {
 
-    override fun searchTracks(expression: String): Resource<List<Track>> {
+    override fun searchTracks(expression: String): Resource<ArrayList<Track>> {
 
         val response = networkClient.doRequest(
             TracksRequest(
                 expression
             )
         )
-        return when (response.resultCode) {
+        when (response.resultCode) {
             Constants.NO_INTERNET_CONNECTION_CODE -> {
-                Resource.Error(
-                    message = Constants.INTERNET_CONNECTION_ERROR,
-                    code = Constants.NO_INTERNET_CONNECTION_CODE
-                )
+                return Resource.Error(message = Constants.INTERNET_CONNECTION_ERROR)
             }
+
             Constants.SUCCESS_CODE -> {
-                Resource.Success((response as TracksResponse).results.map {
-                    it
-                }, code = Constants.SUCCESS_CODE)
+                val arrayListTracks = arrayListOf<Track>()
+                (response as TracksResponse).results.forEach {
+                    arrayListTracks.add(
+                        Track(
+                            it.trackId,
+                            it.trackName,
+                            it.artistName,
+                            it.trackTimeMillis,
+                            it.artworkUrl100,
+                            it.previewUrl,
+                            it.collectionName,
+                            it.releaseDate,
+                            it.primaryGenreName,
+                            it.country,
+                        )
+                    )
+                }
+                return Resource.Success(arrayListTracks)
             }
+
             else -> {
-                Resource.Error(message = Constants.SERVER_ERROR, code = response.resultCode)
+                return Resource.Error(message = Constants.SERVER_ERROR)
             }
         }
     }

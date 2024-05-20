@@ -5,10 +5,10 @@ import com.google.gson.Gson
 import com.practicum.playlistmaker.search.domain.TrackGetter
 import com.practicum.playlistmaker.search.domain.Track
 
-class TrackGetterImpl: TrackGetter {
+class TrackGetterImpl : TrackGetter {
     override fun getTrack(key: String, intent: Intent): Track {
-        val gson=Gson()
-        val json=intent.getStringExtra(key)
+        val gson = Gson()
+        val json = intent.getStringExtra(key)
         return gson.fromJson(json, Track::class.java)
     }
 }

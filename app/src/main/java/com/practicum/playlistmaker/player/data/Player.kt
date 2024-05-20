@@ -1,39 +1,43 @@
 package com.practicum.playlistmaker.player.data
 
 import android.media.MediaPlayer
+import android.media.MediaPlayer.OnCompletionListener
+import android.media.MediaPlayer.OnPreparedListener
 import com.practicum.playlistmaker.player.domain.TrackDto
+import java.security.PrivateKey
 
-class Player(track: TrackDto):PlayerClient {
-    private val mediaPlayer: MediaPlayer = MediaPlayer()
-    init {
-        mediaPlayer.setDataSource(track.previewUrl)
-        mediaPlayer.prepareAsync()
-    }
+class Player(private val client: MediaPlayer) : PlayerClient {
 
-    override fun preparePlayer(prepare: () -> Unit) {
-        mediaPlayer.setOnPreparedListener { prepare() }
-    }
 
-    override fun setOnCompletionListener(onComplete: () -> Unit) {
-        mediaPlayer.setOnCompletionListener {
-            onComplete()
+    override fun preparePlayer(
+        url: String,
+        onPreparedListener: () -> Unit,
+        onCompletionListener: () -> Unit
+    ) {
+        client.setDataSource(url)
+        client.prepareAsync()
+        client.setOnPreparedListener {
+            onPreparedListener.invoke()
+        }
+        client.setOnCompletionListener {
+            onCompletionListener.invoke()
         }
     }
 
     override fun startPlayer() {
-        mediaPlayer.start()
+        client.start()
     }
 
     override fun pausePlayer() {
-        mediaPlayer.pause()
+        client.pause()
     }
 
-    override fun release() {
-        mediaPlayer.release()
+    override fun isPlaying(): Boolean {
+        return client.isPlaying
     }
 
     override fun getCurrentTime(): Int {
-        return mediaPlayer.currentPosition
+        return client.currentPosition
     }
 
 }

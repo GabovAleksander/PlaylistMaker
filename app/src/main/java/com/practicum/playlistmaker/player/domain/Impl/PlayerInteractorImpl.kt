@@ -1,13 +1,20 @@
 package com.practicum.playlistmaker.player.domain.Impl
 
 
+import android.media.MediaPlayer.OnCompletionListener
+import android.media.MediaPlayer.OnPreparedListener
+import com.practicum.playlistmaker.di.repositoryModule
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.PlayerRepository
 
-class PlayerInteractorImpl(private val playerRepository: PlayerRepository): PlayerInteractor {
+class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : PlayerInteractor {
 
-    override fun preparePlayer(prepare: () -> Unit) {
-        playerRepository.preparePlayer(prepare)
+    override fun preparePlayer(
+        url: String,
+        onPreparedListener: () -> Unit,
+        onCompletionListener: () -> Unit
+    ) {
+        playerRepository.preparePlayer(url, onPreparedListener, onCompletionListener)
     }
 
     override fun startPlayer() {
@@ -18,12 +25,8 @@ class PlayerInteractorImpl(private val playerRepository: PlayerRepository): Play
         playerRepository.pausePlayer()
     }
 
-    override fun release() {
-        playerRepository.release()
-    }
-
-    override fun setOnCompleteListener(onComplete: () -> Unit) {
-        playerRepository.setOnCompletionListener(onComplete)
+    override fun isPlaying(): Boolean {
+        return playerRepository.isPlaying()
     }
 
     override fun getPosition(): Int {

@@ -7,29 +7,29 @@ import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.creator.Creator
+import com.practicum.playlistmaker.main.ui.ScreenViewState
 import com.practicum.playlistmaker.search.domain.Track
 import com.practicum.playlistmaker.search.domain.TracksInteractor
 
-class SearchViewModel(application: Application) : AndroidViewModel(application) {
+class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel() {
 
-    private val tracksInteractor = Creator.provideTracksInteractor(getApplication())
+
     private val _screenState = MutableLiveData<SearchState>()
-    private val showToast = SingleLiveEvent<String>()
+    fun observeState():LiveData<SearchState> = _screenState
     private val handler = Handler(Looper.getMainLooper())
     private var lastQuery: String? = null
     private val _trackIsClickable = MutableLiveData(true)
     var trackIsClickable: LiveData<Boolean> = _trackIsClickable
 
     init {
-        _screenState.postValue(SearchState.ShowHistory(tracks = showHistory()))
+        val history=showHistory()
+        if(history.isNotEmpty()){
+            renderState(SearchState.ShowHistory(history))
+        }
     }
-
-    fun observeState(): LiveData<SearchState> = _screenState
-
-    fun observeShowToast(): LiveData<String> = showToast
 
     private fun makeDelaySearching(changedText: String) {
         val searchRunnable = Runnable { getTracks(changedText) }
@@ -68,31 +68,34 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
-    fun getTracks(query: String? = lastQuery) {
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-        query?.let {
-            _screenState.postValue(SearchState.Loading)
-            tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
-                override fun consume(
-                    foundTracks: List<Track>?,
-                    errorMessage: String?,
-                    code: Int
-                ) {
-                    when (code) {
-                        Constants.SUCCESS_CODE -> {
-                            val tracks = arrayListOf<Track>()
-                            if (foundTracks!!.isNotEmpty()) {
-                                tracks.addAll(foundTracks)
+    fun getTracks(query: String) {
+            if (query.isNotEmpty()) {
+                handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+                tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
+                    override fun consume(foundTracks: ArrayList<Track>?, errorMessage: String?) {
 
-                                _screenState.postValue(SearchState.Success(tracks = tracks))
-                            } else {
-                                _screenState.postValue(SearchState.NothingFound)
-                            }
+                        val tracks = arrayListOf<Track>()
+                        if (foundTracks != null) {
+                            tracks.addAll(foundTracks)
                         }
+
+                        when {
+                            errorMessage != null -> {
+                                renderState(
+                                    SearchState.Error(
+                                        message = errorMessage
+                                    )
+                                )
+                            }
+
+                            tracks.isEmpty() -> {
+                                renderState(
+                                    SearchState.NothingFound
+                                )
+                            }
                         else -> {
-                            _screenState.postValue(
-                                SearchState.Error(
-                                    message = getApplication<Application>().getString(R.string.something_went_wrong),
+                                renderState(
+                                    SearchState.Success(tracks=tracks
                                 )
                             )
                         }
@@ -130,7 +133,9 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         _screenState.postValue(state)
     }
 
-
+    override fun onCleared() {
+        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+    }
 
     companion object {
         private val SEARCH_REQUEST_TOKEN = Any()
