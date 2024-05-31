@@ -23,4 +23,9 @@
     <string name="genre">Genre</string>
     <string name="country">Country</string>
     <string name="trackAdded">Track has been added</string>
+    <string name="no_media">Your media is empty</string>
+    <string name="no_playlists">You haven\'t created any playlists</string>
+    <string name="new_playlist">New playlist</string>
+    <string name="favorites">Favorites</string>
+    <string name="playlists">Playlists</string>
 </resources>
