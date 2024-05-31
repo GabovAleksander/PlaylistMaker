@@ -1,4 +1,5 @@
 package com.practicum.playlistmaker.search.data
-open class Response{
-    var resultCode=0
+
+open class Response {
+    var resultCode = 0
 }

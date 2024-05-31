@@ -1,13 +1,12 @@
 package com.practicum.playlistmaker.player.data
 
+import android.media.MediaPlayer.OnPreparedListener
+
 interface PlayerClient {
-    fun preparePlayer(prepare: () -> Unit)
+    fun preparePlayer(url: String, onPreparedListener: () -> Unit, onCompletionListener: () -> Unit)
     fun startPlayer()
     fun pausePlayer()
-    fun setOnCompletionListener(onComplete: () -> Unit)
-
-    fun release()
-
+    fun isPlaying(): Boolean
     fun getCurrentTime(): Int
 
 }

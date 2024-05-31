@@ -5,5 +5,5 @@ import com.practicum.playlistmaker.player.domain.TrackDto
 import com.practicum.playlistmaker.search.domain.Track
 
 interface TrackGetter {
-    fun getTrack(key: String, intent: Intent) : Track
+    fun getTrack(key: String, intent: Intent): Track
 }

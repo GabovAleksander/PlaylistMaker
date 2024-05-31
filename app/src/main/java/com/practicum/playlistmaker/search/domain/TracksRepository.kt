@@ -5,7 +5,7 @@ import com.practicum.playlistmaker.player.domain.TrackDto
 
 
 interface TracksRepository {
-    fun searchTracks(query: String): Resource<List<Track>>
+    fun searchTracks(query: String): Resource<ArrayList<Track>>
     fun addTrackToHistory(track: Track)
     fun clearHistory()
     fun getHistory(): ArrayList<Track>
