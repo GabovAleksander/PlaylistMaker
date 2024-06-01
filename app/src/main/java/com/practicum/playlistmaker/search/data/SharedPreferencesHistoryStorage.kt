@@ -22,7 +22,7 @@ class SharedPreferencesHistoryStorage(
 
         val searchedTracks = getHistory()
         searchedTracks.remove(track)
-        searchedTracks.add(Constants.INDEX_FIRST, track)
+        searchedTracks.add(0, track)
 
         if (searchedTracks.size > Constants.HISTORY_SIZE)
             searchedTracks.removeLast()

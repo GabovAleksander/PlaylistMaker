@@ -16,7 +16,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MediaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMediaBinding
     private lateinit var tabMediator:TabLayoutMediator
-    private var navigationRouter = MediaRouter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,7 @@ class MediaActivity : AppCompatActivity() {
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) {
                 tab, position ->
             when(position) {
-                Constants.INDEX_FIRST -> tab.text = resources.getString(R.string.favorites)
+                0 -> tab.text = resources.getString(R.string.favorites)
                 else -> tab.text = resources.getString(R.string.playlists)
             }
         }

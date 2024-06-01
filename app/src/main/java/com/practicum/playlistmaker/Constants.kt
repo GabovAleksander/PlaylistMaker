@@ -9,7 +9,6 @@ object Constants {
     const val READ_TIMEOUT = 30
 
     const val HISTORY_SIZE = 10
-    const val INDEX_FIRST = 0
     const val TRACK = "TRACK"
 
     const val CLICK_DEBOUNCE_DELAY = 1000L

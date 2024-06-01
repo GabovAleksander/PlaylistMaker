@@ -247,7 +247,7 @@
         <item name="android:layout_marginTop">@dimen/marginPlayTime</item>
     </style>
     <style name="tabLayout">
-        <item name="android:background">@color/backGround</item>
+        <item name="android:background">@color/white</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textSize">@dimen/fontSizeButtonUpdate</item>
         <item name="tabTextColor">@color/black</item>
