@@ -22,4 +22,9 @@ class NavigationRouter(private val activity: AppCompatActivity) {
         val settingsIntent = Intent(activity, SettingsActivity::class.java)
         activity.startActivity(settingsIntent)
     }
+
+    fun toMedia(){
+        val mediaIntent = Intent(activity, MediaActivity::class.java)
+        activity.startActivity(mediaIntent)
+    }
 }
