@@ -3,24 +3,28 @@ package com.practicum.playlistmaker.settings.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.practicum.playlistmaker.App
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainer
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
+import com.practicum.playlistmaker.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SettingsActivity : AppCompatActivity() {
-    private lateinit var binding:ActivitySettingsBinding
+class SettingsFragment : Fragment() {
+    private lateinit var binding: FragmentSettingsBinding
     private val viewModel by viewModel<SettingsViewModel>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding=ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
 
-        initButtonBack()
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initSwitch()
         initButtonShare()
         initButtonSupport()
@@ -28,13 +32,7 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
-    private fun initButtonBack(){
-        binding.buttonBack.setOnClickListener {
-            Intent(Intent.ACTION_SEND).apply {
-                finish()
-            }
-        }
-    }
+
     private fun initSwitch(){
         binding.themeSwitcher.apply {
             isChecked=viewModel.isDarkThemeOn()

@@ -1,50 +1,51 @@
 package com.practicum.playlistmaker.search.ui
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivitySearchBinding
+import com.practicum.playlistmaker.databinding.FragmentSearchBinding
 import com.practicum.playlistmaker.search.domain.Track
 import com.practicum.playlistmaker.search.ui.adapters.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val TRACK_KEY = "track_key"
 
-class SearchActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySearchBinding
+class SearchFragment : Fragment() {
+    private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
-    private lateinit var router: Router
+
     private val trackListAdapter = TrackAdapter {
         clickOnTrack(it)
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.apply {
-            observeState().observe(this@SearchActivity) {
+            observeState().observe(viewLifecycleOwner) {
                 render(it)
             }
         }
-
-        initButtonBack()
 
         initInput()
 
         initHistory()
 
-        router = Router(this)
     }
 
     private fun render(state: SearchState) {
@@ -69,11 +70,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun initButtonBack() {
-        binding.buttonBack.setOnClickListener {
-            router.goBack()
-        }
-    }
 
     private fun initInput() {
 
@@ -117,9 +113,9 @@ class SearchActivity : AppCompatActivity() {
     private fun clearSearch() {
         trackListAdapter.tracks = arrayListOf()
         binding.editTextSearch.setText("")
-        val view = this.currentFocus
+        val view = requireActivity().currentFocus
         if (view != null) {
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
         viewModel.clearSearch()
@@ -142,7 +138,7 @@ class SearchActivity : AppCompatActivity() {
     private fun clickOnTrack(track: Track) {
         if (viewModel.trackIsClickable.value == false) return
         viewModel.onSearchClicked(track)
-        router.openPlayer(track)
+        findNavController().navigate(R.id.action_searchFragment_to_audioPlayerFragment)
     }
 
 

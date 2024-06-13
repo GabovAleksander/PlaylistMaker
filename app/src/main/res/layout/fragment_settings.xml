@@ -7,9 +7,6 @@
     <LinearLayout
         style="@style/layoutUp">
 
-    <ImageView
-        android:id="@+id/buttonBack"
-        style="@style/buttonBack"/>
 
     <TextView
         android:text="@string/settings"

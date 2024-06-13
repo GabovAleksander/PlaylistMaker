@@ -1,51 +1,53 @@
 package com.practicum.playlistmaker.player.ui
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.animation.AnimationUtils
 import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.search.domain.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerFragment : Fragment() {
     val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-    private lateinit var binding: ActivityPlayerBinding
+    private lateinit var binding: FragmentPlayerBinding
     private val viewModel by viewModel<PlayerViewModel>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var track: Track
 
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        viewModel.observeState().observe(this) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding=FragmentPlayerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        track = viewModel.getTrack()
+        viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
-        @Suppress("DEPRECATION") val track =
-            intent.getSerializableExtra(Constants.TRACK) as Track
 
         showTrack(track)
 
         viewModel.preparePlayer(track.previewUrl)
 
-        binding.buttonBack.setOnClickListener {
-            finish()
-        }
-
-        binding.buttonPlay.apply {
-            setOnClickListener {
+        binding.buttonPlay.setOnClickListener {
+                binding.buttonPlay.startAnimation(android.view.animation.AnimationUtils.loadAnimation(requireContext(), R.anim.scale))
                 viewModel.playbackControl()
-            }
         }
 
         binding.buttonLike.apply {

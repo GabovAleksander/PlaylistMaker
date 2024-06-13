@@ -257,4 +257,9 @@
         <item name="tabIndicatorColor">@color/black</item>
         <item name="tabPadding">@dimen/marginPlayTime</item>
     </style>
+    <style name="bottom_menu">
+        <item name="android:top">10dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="tint">@color/black</item>
+    </style>
 </resources>
