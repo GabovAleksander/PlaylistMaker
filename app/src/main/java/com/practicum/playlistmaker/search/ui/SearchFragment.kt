@@ -133,6 +133,7 @@ class SearchFragment : Fragment() {
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
         }
+
     }
 
     private fun clickOnTrack(track: Track) {
@@ -162,6 +163,7 @@ class SearchFragment : Fragment() {
                 )
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
+                trackListAdapter.tracks= ArrayList<Track>()
             }
 
             Content.ERROR -> {
@@ -179,7 +181,23 @@ class SearchFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
             }
 
-            Content.TRACKS_HISTORY, Content.SEARCH_RESULT -> {
+            Content.TRACKS_HISTORY ->{
+                if(trackListAdapter.tracks.size==0){
+                    binding.clearHistory.visibility=View.GONE
+                    binding.historyHeader.visibility=View.GONE
+                }else{
+                    binding.clearHistory.visibility=View.VISIBLE
+                    binding.historyHeader.visibility=View.VISIBLE
+                }
+                trackListAdapter.notifyDataSetChanged()
+                binding.trackLayout.visibility = View.VISIBLE
+                binding.trackList.visibility = View.VISIBLE
+                binding.errLayout.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
+            }
+            Content.SEARCH_RESULT -> {
+                binding.clearHistory.visibility=View.GONE
+                binding.historyHeader.visibility=View.GONE
                 trackListAdapter.notifyDataSetChanged()
                 binding.trackLayout.visibility = View.VISIBLE
                 binding.trackList.visibility = View.VISIBLE
@@ -189,7 +207,6 @@ class SearchFragment : Fragment() {
 
 
             Content.LOADING -> {
-                //binding.trackLayout.visibility = View.GONE
                 binding.clearHistory.visibility = View.GONE
                 binding.historyHeader.visibility = View.GONE
                 binding.trackList.visibility = View.GONE

@@ -262,4 +262,7 @@
         <item name="android:background">@color/white</item>
         <item name="tint">@color/black</item>
     </style>
+    <style name="border">
+        <item name="android:background">@color/gray</item>
+    </style>
 </resources>

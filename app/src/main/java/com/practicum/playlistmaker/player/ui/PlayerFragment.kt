@@ -66,6 +66,9 @@ class PlayerFragment : Fragment() {
         showTrack(track)
         binding.buttonPlay.isEnabled = false
 
+        binding.buttonBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun render(state: PlayerScreenState) {
@@ -109,7 +112,7 @@ class PlayerFragment : Fragment() {
         binding.apply {
             Glide
                 .with(imageTrackTrack)
-                .load(track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"))
+                .load(track.artworkUrl100?:"".replaceAfterLast('/', "512x512bb.jpg"))
                 .placeholder(R.drawable.icon_no_picture)
                 .centerCrop()
                 .transform(
@@ -138,7 +141,7 @@ class PlayerFragment : Fragment() {
                 year.text = formattedDatesString
             }
 
-            if (track.collectionName.isNotEmpty()) {
+            if ((track.collectionName?:"").isNotEmpty()) {
                 album.text = track.collectionName
             } else {
                 album.visibility = View.GONE
