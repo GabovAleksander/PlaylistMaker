@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.search.ui
 
 import android.content.Context.INPUT_METHOD_SERVICE
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -133,7 +132,7 @@ class SearchFragment : Fragment() {
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
         }
-
+        showContent(Content.TRACKS_HISTORY)
     }
 
     private fun clickOnTrack(track: Track) {
@@ -161,6 +160,7 @@ class SearchFragment : Fragment() {
                         R.drawable.icon_nothing_found
                     )
                 )
+                binding.errUpdateButton.visibility=View.GONE
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
                 trackListAdapter.tracks= ArrayList<Track>()
@@ -177,6 +177,7 @@ class SearchFragment : Fragment() {
                         R.drawable.icon_network_problem
                     )
                 )
+                binding.errUpdateButton.visibility=View.VISIBLE
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
             }
