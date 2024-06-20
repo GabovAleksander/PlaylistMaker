@@ -1,50 +1,50 @@
 package com.practicum.playlistmaker.search.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivitySearchBinding
+import com.practicum.playlistmaker.databinding.FragmentSearchBinding
 import com.practicum.playlistmaker.search.domain.Track
 import com.practicum.playlistmaker.search.ui.adapters.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val TRACK_KEY = "track_key"
 
-class SearchActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySearchBinding
+class SearchFragment : Fragment() {
+    private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
-    private lateinit var router: Router
+
     private val trackListAdapter = TrackAdapter {
         clickOnTrack(it)
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.apply {
-            observeState().observe(this@SearchActivity) {
+            observeState().observe(viewLifecycleOwner) {
                 render(it)
             }
         }
-
-        initButtonBack()
 
         initInput()
 
         initHistory()
 
-        router = Router(this)
     }
 
     private fun render(state: SearchState) {
@@ -69,11 +69,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun initButtonBack() {
-        binding.buttonBack.setOnClickListener {
-            router.goBack()
-        }
-    }
 
     private fun initInput() {
 
@@ -117,9 +112,9 @@ class SearchActivity : AppCompatActivity() {
     private fun clearSearch() {
         trackListAdapter.tracks = arrayListOf()
         binding.editTextSearch.setText("")
-        val view = this.currentFocus
+        val view = requireActivity().currentFocus
         if (view != null) {
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
         viewModel.clearSearch()
@@ -137,12 +132,13 @@ class SearchActivity : AppCompatActivity() {
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
         }
+        showContent(Content.TRACKS_HISTORY)
     }
 
     private fun clickOnTrack(track: Track) {
         if (viewModel.trackIsClickable.value == false) return
         viewModel.onSearchClicked(track)
-        router.openPlayer(track)
+        findNavController().navigate(R.id.action_searchFragment_to_audioPlayerFragment)
     }
 
 
@@ -164,8 +160,10 @@ class SearchActivity : AppCompatActivity() {
                         R.drawable.icon_nothing_found
                     )
                 )
+                binding.errUpdateButton.visibility=View.GONE
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
+                trackListAdapter.tracks= ArrayList<Track>()
             }
 
             Content.ERROR -> {
@@ -179,11 +177,28 @@ class SearchActivity : AppCompatActivity() {
                         R.drawable.icon_network_problem
                     )
                 )
+                binding.errUpdateButton.visibility=View.VISIBLE
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
             }
 
-            Content.TRACKS_HISTORY, Content.SEARCH_RESULT -> {
+            Content.TRACKS_HISTORY ->{
+                if(trackListAdapter.tracks.size==0){
+                    binding.clearHistory.visibility=View.GONE
+                    binding.historyHeader.visibility=View.GONE
+                }else{
+                    binding.clearHistory.visibility=View.VISIBLE
+                    binding.historyHeader.visibility=View.VISIBLE
+                }
+                trackListAdapter.notifyDataSetChanged()
+                binding.trackLayout.visibility = View.VISIBLE
+                binding.trackList.visibility = View.VISIBLE
+                binding.errLayout.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
+            }
+            Content.SEARCH_RESULT -> {
+                binding.clearHistory.visibility=View.GONE
+                binding.historyHeader.visibility=View.GONE
                 trackListAdapter.notifyDataSetChanged()
                 binding.trackLayout.visibility = View.VISIBLE
                 binding.trackList.visibility = View.VISIBLE
@@ -193,7 +208,6 @@ class SearchActivity : AppCompatActivity() {
 
 
             Content.LOADING -> {
-                //binding.trackLayout.visibility = View.GONE
                 binding.clearHistory.visibility = View.GONE
                 binding.historyHeader.visibility = View.GONE
                 binding.trackList.visibility = View.GONE

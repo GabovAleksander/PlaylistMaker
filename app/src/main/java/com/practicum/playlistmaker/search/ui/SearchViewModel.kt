@@ -71,6 +71,7 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
     fun getTracks(query: String) {
             if (query.isNotEmpty()) {
                 handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+                renderState(SearchState.Loading)
                 tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
                     override fun consume(foundTracks: ArrayList<Track>?, errorMessage: String?) {
 

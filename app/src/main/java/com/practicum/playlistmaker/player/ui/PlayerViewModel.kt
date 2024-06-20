@@ -7,10 +7,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
+import com.practicum.playlistmaker.search.domain.Track
+import com.practicum.playlistmaker.search.domain.TracksInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
+class PlayerViewModel(
+    private val playerInteractor: PlayerInteractor,
+    private val trackInteractor: TracksInteractor
+) : ViewModel() {
 
     private var likeState=false
     private var checkState=false
@@ -95,5 +100,11 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     override fun onCleared() {
         pausePlayer()
         handler.removeCallbacksAndMessages(null)
+    }
+
+    fun getTrack(): Track {
+        return trackInteractor
+            .getHistory()
+            .first()
     }
 }
