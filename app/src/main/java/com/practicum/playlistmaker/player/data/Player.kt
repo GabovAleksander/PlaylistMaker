@@ -3,6 +3,7 @@ package com.practicum.playlistmaker.player.data
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
 import android.media.MediaPlayer.OnPreparedListener
+import android.util.Log
 import com.practicum.playlistmaker.player.domain.TrackDto
 import java.security.PrivateKey
 
@@ -14,8 +15,11 @@ class Player(private val client: MediaPlayer) : PlayerClient {
         onPreparedListener: () -> Unit,
         onCompletionListener: () -> Unit
     ) {
+        client.reset()
         client.setDataSource(url)
         client.prepareAsync()
+
+
         client.setOnPreparedListener {
             onPreparedListener.invoke()
         }

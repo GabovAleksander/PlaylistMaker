@@ -6,39 +6,28 @@ import android.net.NetworkCapabilities
 import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.search.data.NetworkClient
 import com.practicum.playlistmaker.search.data.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val service: ITunesAPI, private val context: Context) :
+class RetrofitNetworkClient(private val service: ITunesAPI, private val checker: ConnectionChecker) :
     NetworkClient {
 
-    override fun doRequest(dto: Any): Response {
-        if (!isConnected()) {
+    override suspend fun doRequest(dto: Any): Response {
+        if (!checker.isConnected()) {
             return Response().apply { resultCode = Constants.NO_INTERNET_CONNECTION_CODE }
         }
-        return if (dto is TracksRequest) {
-            val resp = service.findTrack(dto.expression).execute()
-            val body = resp.body() ?: Response()
-            body.apply { resultCode = resp.code() }
-
-        } else {
+        if (dto !is TracksRequest) {
             return Response().apply { resultCode = Constants.BAD_REQUEST_CODE }
         }
-    }
-
-    private fun isConnected(): Boolean {
-        val connectivityManager = context.getSystemService(
-            Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = service.findTrack(dto.expression)
+                response.apply { resultCode = Constants.SUCCESS_CODE }
+            } catch (e: Throwable) {
+                Response().apply { resultCode = Constants.INTERNAL_SERVER_ERROR }
             }
         }
-        return false
     }
 }

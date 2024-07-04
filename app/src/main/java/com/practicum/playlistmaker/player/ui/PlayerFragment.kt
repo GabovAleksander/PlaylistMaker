@@ -134,7 +134,7 @@ class PlayerFragment : Fragment() {
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
 
             val date =
-                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(track.releaseDate)
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())?.parse(track.releaseDate)
             if (date != null) {
                 val formattedDatesString =
                     SimpleDateFormat("yyyy", Locale.getDefault()).format(date)

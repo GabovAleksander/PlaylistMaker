@@ -5,6 +5,4 @@ import com.practicum.playlistmaker.search.data.Response
 import com.practicum.playlistmaker.player.domain.TrackDto
 import com.practicum.playlistmaker.search.domain.Track
 
-class TracksResponse(
-    @SerializedName("results") val results: ArrayList<TrackDto>
-) : Response()
+class TracksResponse(val results: ArrayList<TrackDto>) : Response()

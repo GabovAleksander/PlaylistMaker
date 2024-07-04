@@ -1,9 +1,6 @@
 package com.practicum.playlistmaker.player.domain.Impl
 
 
-import android.media.MediaPlayer.OnCompletionListener
-import android.media.MediaPlayer.OnPreparedListener
-import com.practicum.playlistmaker.di.repositoryModule
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.PlayerRepository
 

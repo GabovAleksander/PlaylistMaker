@@ -8,6 +8,7 @@ import com.practicum.playlistmaker.player.data.Player
 import com.practicum.playlistmaker.player.data.PlayerClient
 import com.practicum.playlistmaker.search.data.HistoryStorage
 import com.practicum.playlistmaker.search.data.NetworkClient
+import com.practicum.playlistmaker.search.data.network.ConnectionChecker
 import com.practicum.playlistmaker.search.data.SharedPreferencesHistoryStorage
 import com.practicum.playlistmaker.search.data.network.ITunesAPI
 import com.practicum.playlistmaker.search.data.network.RetrofitNetworkClient
@@ -51,6 +52,8 @@ val dataModule = module {
     factory { Gson() }
 
     singleOf(::SharedPreferencesHistoryStorage).bind<HistoryStorage>()
+
+    singleOf(::ConnectionChecker)
 
     singleOf(::RetrofitNetworkClient).bind<NetworkClient>()
 

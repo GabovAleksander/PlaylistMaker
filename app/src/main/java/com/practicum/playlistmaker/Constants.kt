@@ -20,5 +20,6 @@ object Constants {
     const val INTERNET_CONNECTION_ERROR = "Проверьте подключение к интернету"
     const val SERVER_ERROR = "Ошибка сервера"
     const val BAD_REQUEST_CODE = 400
+    const val INTERNAL_SERVER_ERROR = 500
     const val ITUNES_URL="https://itunes.apple.com"
 }

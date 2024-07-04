@@ -136,16 +136,12 @@ class SearchFragment : Fragment() {
     }
 
     private fun clickOnTrack(track: Track) {
-        if (viewModel.trackIsClickable.value == false) return
-        viewModel.onSearchClicked(track)
+        if (!viewModel.isClickable) return
+        viewModel.addToHistory(track)
+        viewModel.onTrackClick()
         findNavController().navigate(R.id.action_searchFragment_to_audioPlayerFragment)
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
 
     private fun showContent(content: Content) {
         when (content) {
