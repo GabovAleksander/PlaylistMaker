@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.search.data.impl
 
-import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.Resource
 import com.practicum.playlistmaker.search.data.NetworkClient
 import com.practicum.playlistmaker.search.data.SharedPreferencesHistoryStorage
@@ -17,19 +16,19 @@ class TracksRepositoryImpl(
     SharedPreferencesHistoryStorage
 ) : TracksRepository {
 
-    override fun searchTracks(expression: String): Flow<Resource<ArrayList<Track>>> = flow{
+    override fun searchTracks(query: String): Flow<Resource<ArrayList<Track>>> = flow{
 
         val response = networkClient.doRequest(
             TracksRequest(
-                expression
+                query
             )
         )
         when (response.resultCode) {
-            Constants.NO_INTERNET_CONNECTION_CODE -> {
-                emit(Resource.Error(message = Constants.INTERNET_CONNECTION_ERROR))
+            NetworkClient.NO_INTERNET_CONNECTION_CODE -> {
+                emit(Resource.Error(message = NetworkClient.INTERNET_CONNECTION_ERROR))
             }
 
-            Constants.SUCCESS_CODE -> {
+            NetworkClient.SUCCESS_CODE -> {
                 val arrayListTracks = arrayListOf<Track>()
                 (response as TracksResponse).results.forEach {
                     arrayListTracks.add(
@@ -51,7 +50,7 @@ class TracksRepositoryImpl(
             }
 
             else -> {
-                emit(Resource.Error(message = Constants.SERVER_ERROR))
+                emit(Resource.Error(message = NetworkClient.SERVER_ERROR))
             }
         }
     }

@@ -3,7 +3,6 @@ package com.practicum.playlistmaker.di
 import android.content.Context
 import android.media.MediaPlayer
 import com.google.gson.Gson
-import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.player.data.Player
 import com.practicum.playlistmaker.player.data.PlayerClient
 import com.practicum.playlistmaker.search.data.HistoryStorage
@@ -28,13 +27,16 @@ import java.util.concurrent.TimeUnit
 val dataModule = module {
 
     single<ITunesAPI> {
+        val ITUNES_URL="https://itunes.apple.com"
+        val CALL_TIMEOUT = 30
+        val READ_TIMEOUT = 30
         val okHttpClient = OkHttpClient.Builder()
-            .callTimeout(Constants.CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(Constants.READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .callTimeout(CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.ITUNES_URL)
+            .baseUrl(ITUNES_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -44,7 +46,7 @@ val dataModule = module {
 
     single {
         androidContext().getSharedPreferences(
-            Constants.HISTORY_KEY,
+            HistoryStorage.HISTORY_KEY,
             Context.MODE_PRIVATE
         )
     }
@@ -66,6 +68,5 @@ val dataModule = module {
     }
 
     singleOf(::SharedPreferencesThemeStorage).bind<ThemeStorage>()
-
 
 }

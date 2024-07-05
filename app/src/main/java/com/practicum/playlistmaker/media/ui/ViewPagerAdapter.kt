@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.media.ui.fragments.FavoritesFragment
 import com.practicum.playlistmaker.media.ui.fragments.PlaylistsFragment
 

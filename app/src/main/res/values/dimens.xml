@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="fontSizeMenu">22sp</dimen>
+    <dimen name="fontSizeBottomMenu">12sp</dimen>
     <dimen name="mainMargin">24sp</dimen>
     <dimen name="fontSizeSettingsMenu">16sp</dimen>
     <dimen name="fontSizeSearchTrackName">16sp</dimen>
@@ -31,4 +32,5 @@
     <dimen name="marginTrackName">24dp</dimen>
     <dimen name="marginPlayTime">16dp</dimen>
     <dimen name="progressBarMarginTop">184dp</dimen>
+    <dimen name="bottomMenuIconSize">30dp</dimen>
 </resources>

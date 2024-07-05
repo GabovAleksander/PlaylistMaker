@@ -1,12 +1,10 @@
 package com.practicum.playlistmaker.player.ui
 
-import android.os.Handler
-import android.os.Looper
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.search.domain.Track
 import com.practicum.playlistmaker.search.domain.TracksInteractor
@@ -20,7 +18,7 @@ class PlayerViewModel(
     private val playerInteractor: PlayerInteractor,
     private val trackInteractor: TracksInteractor
 ) : ViewModel() {
-
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     private var likeState=false
     private var checkState=false
     private val stateLiveData = MutableLiveData<PlayerScreenState>()
@@ -88,15 +86,13 @@ class PlayerViewModel(
 
 
     private fun updatePlayingTime() {
+       playTimer?.cancel()
        playTimer = viewModelScope.launch {
             while (isPlaying()) {
-                delay(Constants.REFRESH_TIMER_DELAY)
+                delay(REFRESH_TIMER_DELAY)
                 renderState(
                     PlayerScreenState.TimerUpdating(
-                        SimpleDateFormat(
-                            "mm:ss",
-                            Locale.getDefault()
-                        ).format(
+                        dateFormat.format(
                             getCurrentPosition()
                         )
                     )
@@ -110,5 +106,9 @@ class PlayerViewModel(
         return trackInteractor
             .getHistory()
             .first()
+    }
+
+    companion object{
+        private const val REFRESH_TIMER_DELAY = 300L
     }
 }
