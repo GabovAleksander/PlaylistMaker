@@ -260,6 +260,9 @@
     <style name="bottom_menu">
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">@dimen/fontSizeBottomMenu</item>
+        <item name="android:fontWeight">@dimen/fontWeightSearch</item>
+        <item name="itemPaddingBottom">@dimen/bottomMenuMargin</item>
+        <item name="itemPaddingTop">@dimen/bottomMenuMargin</item>
         <item name="android:background">@color/white</item>
         <item name="tint">@color/black</item>
     </style>

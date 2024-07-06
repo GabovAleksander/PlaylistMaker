@@ -32,5 +32,7 @@
     <dimen name="marginTrackName">24dp</dimen>
     <dimen name="marginPlayTime">16dp</dimen>
     <dimen name="progressBarMarginTop">184dp</dimen>
-    <dimen name="bottomMenuIconSize">30dp</dimen>
+    <dimen name="bottomMenuIconSize">24dp</dimen>
+    <dimen name="bottomMenuMargin">8dp</dimen>
+    <dimen name="bottomMenuHeight">56dp</dimen>
 </resources>
