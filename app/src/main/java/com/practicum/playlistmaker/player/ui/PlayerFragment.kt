@@ -6,14 +6,11 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.material.animation.AnimationUtils
-import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.search.domain.Track
@@ -112,7 +109,7 @@ class PlayerFragment : Fragment() {
         binding.apply {
             Glide
                 .with(imageTrackTrack)
-                .load(track.artworkUrl100?:"".replaceAfterLast('/', "512x512bb.jpg"))
+                .load(track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg"))
                 .placeholder(R.drawable.icon_no_picture)
                 .centerCrop()
                 .transform(
@@ -134,7 +131,7 @@ class PlayerFragment : Fragment() {
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
 
             val date =
-                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(track.releaseDate)
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())?.parse(track.releaseDate)
             if (date != null) {
                 val formattedDatesString =
                     SimpleDateFormat("yyyy", Locale.getDefault()).format(date)

@@ -3,11 +3,11 @@ package com.practicum.playlistmaker.di
 import android.content.Context
 import android.media.MediaPlayer
 import com.google.gson.Gson
-import com.practicum.playlistmaker.Constants
 import com.practicum.playlistmaker.player.data.Player
 import com.practicum.playlistmaker.player.data.PlayerClient
 import com.practicum.playlistmaker.search.data.HistoryStorage
 import com.practicum.playlistmaker.search.data.NetworkClient
+import com.practicum.playlistmaker.search.data.network.ConnectionChecker
 import com.practicum.playlistmaker.search.data.SharedPreferencesHistoryStorage
 import com.practicum.playlistmaker.search.data.network.ITunesAPI
 import com.practicum.playlistmaker.search.data.network.RetrofitNetworkClient
@@ -27,13 +27,16 @@ import java.util.concurrent.TimeUnit
 val dataModule = module {
 
     single<ITunesAPI> {
+        val ITUNES_URL="https://itunes.apple.com"
+        val CALL_TIMEOUT = 30
+        val READ_TIMEOUT = 30
         val okHttpClient = OkHttpClient.Builder()
-            .callTimeout(Constants.CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(Constants.READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .callTimeout(CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.ITUNES_URL)
+            .baseUrl(ITUNES_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -43,7 +46,7 @@ val dataModule = module {
 
     single {
         androidContext().getSharedPreferences(
-            Constants.HISTORY_KEY,
+            HistoryStorage.HISTORY_KEY,
             Context.MODE_PRIVATE
         )
     }
@@ -51,6 +54,8 @@ val dataModule = module {
     factory { Gson() }
 
     singleOf(::SharedPreferencesHistoryStorage).bind<HistoryStorage>()
+
+    singleOf(::ConnectionChecker)
 
     singleOf(::RetrofitNetworkClient).bind<NetworkClient>()
 
@@ -63,6 +68,5 @@ val dataModule = module {
     }
 
     singleOf(::SharedPreferencesThemeStorage).bind<ThemeStorage>()
-
 
 }
