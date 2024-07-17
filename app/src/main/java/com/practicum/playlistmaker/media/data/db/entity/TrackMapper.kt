@@ -1,9 +1,8 @@
 package com.practicum.playlistmaker.media.data.db.entity
 
 import com.practicum.playlistmaker.search.domain.Track
-import java.util.Calendar
 
-class RoomMapper {
+class TrackMapper {
     fun map(track: TrackEntity): Track {
         return Track(
             track.trackId,
@@ -19,7 +18,7 @@ class RoomMapper {
         )
     }
 
-    fun map(track: Track): TrackEntity {
+    fun map(track: Track, saveDate: Long): TrackEntity {
         return TrackEntity(
             track.trackId,
             track.trackName,
@@ -31,7 +30,7 @@ class RoomMapper {
             track.releaseDate,
             track.primaryGenreName,
             track.country,
-            Calendar.getInstance().timeInMillis
+            saveDate
         )
     }
 }

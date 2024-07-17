@@ -5,7 +5,7 @@ import android.media.MediaPlayer
 import androidx.room.Room
 import com.google.gson.Gson
 import com.practicum.playlistmaker.media.data.db.DataBase
-import com.practicum.playlistmaker.media.data.db.entity.RoomMapper
+import com.practicum.playlistmaker.media.data.db.entity.TrackMapper
 import com.practicum.playlistmaker.player.data.Player
 import com.practicum.playlistmaker.player.data.PlayerClient
 import com.practicum.playlistmaker.search.data.HistoryStorage
@@ -68,7 +68,7 @@ val dataModule = module {
 
     singleOf(::RetrofitNetworkClient).bind<NetworkClient>()
 
-    factoryOf (::RoomMapper)
+    factoryOf (::TrackMapper)
 
     factory<PlayerClient> {
         Player(client = get())

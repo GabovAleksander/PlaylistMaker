@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/marginStart">
+        android:paddingHorizontal="@dimen/margin13dp">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabIndicatorFullWidth="true"
-            app:tabTextAppearance="@style/tabLayout" />
+            app:tabTextAppearance="@style/tabLayout"
+            android:paddingHorizontal="@dimen/margin13dp"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
