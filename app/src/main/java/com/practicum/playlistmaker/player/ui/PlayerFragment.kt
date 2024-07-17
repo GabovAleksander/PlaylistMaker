@@ -141,7 +141,7 @@ class PlayerFragment : Fragment() {
             country.text = track.country
 
             duration.text =
-                SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+                dateFormat.format(track.trackTimeMillis)
 
             val date =
                 SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())?.parse(track.releaseDate)
