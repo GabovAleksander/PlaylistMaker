@@ -18,6 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+
 class PlayerFragment : Fragment() {
     val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     private lateinit var binding: FragmentPlayerBinding
@@ -29,13 +30,20 @@ class PlayerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=FragmentPlayerBinding.inflate(inflater, container, false)
+        binding = FragmentPlayerBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         track = viewModel.getTrack()
+        if (track != null) {
+            viewModel.isLike(track.trackId)
+        }
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
+        }
+        viewModel.observeLikeState().observe(viewLifecycleOwner) {
+            renderLikeButton(it)
         }
 
         showTrack(track)
@@ -43,13 +51,18 @@ class PlayerFragment : Fragment() {
         viewModel.preparePlayer(track.previewUrl)
 
         binding.buttonPlay.setOnClickListener {
-                binding.buttonPlay.startAnimation(android.view.animation.AnimationUtils.loadAnimation(requireContext(), R.anim.scale))
-                viewModel.playbackControl()
+            binding.buttonPlay.startAnimation(
+                android.view.animation.AnimationUtils.loadAnimation(
+                    requireContext(),
+                    R.anim.scale
+                )
+            )
+            viewModel.playbackControl()
         }
 
         binding.buttonLike.apply {
             setOnClickListener {
-                if (viewModel.switchLike())
+                if (viewModel.switchLike(track))
                     binding.buttonLike.background = AppCompatResources.getDrawable(
                         binding.root.context,
                         R.drawable.button_heart
@@ -138,7 +151,7 @@ class PlayerFragment : Fragment() {
                 year.text = formattedDatesString
             }
 
-            if ((track.collectionName?:"").isNotEmpty()) {
+            if ((track.collectionName ?: "").isNotEmpty()) {
                 album.text = track.collectionName
             } else {
                 album.visibility = View.GONE
@@ -151,6 +164,17 @@ class PlayerFragment : Fragment() {
         viewModel.pausePlayer()
     }
 
+    private fun renderLikeButton(isFavorite: Boolean) {
+        if (isFavorite)
+            binding.buttonLike.background = AppCompatResources.getDrawable(
+                binding.root.context,
+                R.drawable.button_heart
+            )
+        else binding.buttonLike.background = AppCompatResources.getDrawable(
+            binding.root.context,
+            R.drawable.button_heart_inactive
+        )
+    }
 
     fun dpToPx(dp: Float, context: Context): Int {
         return TypedValue.applyDimension(

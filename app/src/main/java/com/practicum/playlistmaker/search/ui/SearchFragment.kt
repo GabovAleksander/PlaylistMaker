@@ -17,7 +17,6 @@ import com.practicum.playlistmaker.search.domain.Track
 import com.practicum.playlistmaker.search.ui.adapters.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-const val TRACK_KEY = "track_key"
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
@@ -66,6 +65,7 @@ class SearchFragment : Fragment() {
 
             is SearchState.NothingFound -> showContent(Content.NOT_FOUND)
             is SearchState.Loading -> showContent(Content.LOADING)
+            else -> {}
         }
     }
 
@@ -110,7 +110,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun clearSearch() {
-        trackListAdapter.tracks = arrayListOf()
+        trackListAdapter.tracks = listOf()
         binding.editTextSearch.setText("")
         val view = requireActivity().currentFocus
         if (view != null) {

@@ -5,9 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmaker.media.domain.FavoritesInteractor
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.search.domain.Track
 import com.practicum.playlistmaker.search.domain.TracksInteractor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -16,27 +18,29 @@ import java.util.Locale
 
 class PlayerViewModel(
     private val playerInteractor: PlayerInteractor,
-    private val trackInteractor: TracksInteractor
+    private val trackInteractor: TracksInteractor,
+    private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-    private var likeState=false
-    private var checkState=false
+    private var isLike = false
+    private var checkState = false
     private val stateLiveData = MutableLiveData<PlayerScreenState>()
-
-    fun observeState(): LiveData<PlayerScreenState> =stateLiveData
-    private var playTimer: Job?=null
+    private val isLikeLiveData = MutableLiveData<Boolean>()
+    fun observeLikeState(): LiveData<Boolean> = isLikeLiveData
+    fun observeState(): LiveData<PlayerScreenState> = stateLiveData
+    private var playTimer: Job? = null
 
     fun preparePlayer(url: String?) {
         renderState(PlayerScreenState.Preparing)
-        if(url!=null){
-            playerInteractor.preparePlayer(url=url, onPreparedListener = {
-               renderState(PlayerScreenState.Stopped)
+        if (url != null) {
+            playerInteractor.preparePlayer(url = url, onPreparedListener = {
+                renderState(PlayerScreenState.Stopped)
             },
-                onCompletionListener={
+                onCompletionListener = {
                     playTimer?.cancel()
                     renderState(PlayerScreenState.Stopped)
                 })
-        }else{
+        } else {
             renderState(PlayerScreenState.Unplayable)
         }
     }
@@ -54,7 +58,7 @@ class PlayerViewModel(
         playTimer?.cancel()
     }
 
-    fun isPlaying():Boolean{
+    fun isPlaying(): Boolean {
         return playerInteractor.isPlaying()
     }
 
@@ -65,29 +69,48 @@ class PlayerViewModel(
 
 
     fun playbackControl() {
-        if(isPlaying()){
+        if (isPlaying()) {
             pausePlayer()
-        }else{
+        } else {
             startPlayer()
         }
     }
+
     private fun renderState(state: PlayerScreenState) {
         stateLiveData.postValue(state)
     }
-    fun switchLike():Boolean{
-        likeState=!likeState
-        return likeState
+
+    fun switchLike(track: Track): Boolean {
+        isLike = !isLike
+        isLikeLiveData.value = isLike
+        viewModelScope.launch(Dispatchers.IO) {
+            if (isLike) {
+                favoritesInteractor.addTrack(track)
+            } else {
+                favoritesInteractor.deleteTrack(track.trackId)
+            }
+        }
+        return isLike
     }
 
-    fun switchCheck():Boolean{
-        checkState=!checkState
+    fun isLike(trackId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            favoritesInteractor.isFavorite(trackId).collect {
+                isLike = it
+                isLikeLiveData.postValue(isLike)
+            }
+        }
+    }
+
+    fun switchCheck(): Boolean {
+        checkState = !checkState
         return checkState
     }
 
 
     private fun updatePlayingTime() {
-       playTimer?.cancel()
-       playTimer = viewModelScope.launch {
+        playTimer?.cancel()
+        playTimer = viewModelScope.launch {
             while (isPlaying()) {
                 delay(REFRESH_TIMER_DELAY)
                 renderState(
@@ -108,7 +131,7 @@ class PlayerViewModel(
             .first()
     }
 
-    companion object{
+    companion object {
         private const val REFRESH_TIMER_DELAY = 300L
     }
 }

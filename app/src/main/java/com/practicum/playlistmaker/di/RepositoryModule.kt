@@ -1,5 +1,7 @@
 package com.practicum.playlistmaker.di
 
+import com.practicum.playlistmaker.media.domain.FavoritesRepository
+import com.practicum.playlistmaker.media.data.impl.FavoritesRepositoryImpl
 import com.practicum.playlistmaker.player.data.impl.PlayerRepositoryImpl
 import com.practicum.playlistmaker.player.domain.PlayerRepository
 import com.practicum.playlistmaker.search.data.impl.TracksRepositoryImpl
@@ -20,4 +22,6 @@ val repositoryModule = module {
     }
 
     singleOf(::SettingsRepositoryImpl).bind<SettingsRepository>()
+
+    singleOf(::FavoritesRepositoryImpl).bind<FavoritesRepository>()
 }

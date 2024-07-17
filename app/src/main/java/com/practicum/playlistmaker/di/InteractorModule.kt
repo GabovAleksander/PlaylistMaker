@@ -2,6 +2,8 @@ package com.practicum.playlistmaker.di
 
 import com.practicum.playlistmaker.player.domain.Impl.PlayerInteractorImpl
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
+import com.practicum.playlistmaker.media.domain.impl.FavoritesInteractorImpl
+import com.practicum.playlistmaker.media.domain.FavoritesInteractor
 import com.practicum.playlistmaker.search.domain.Impl.TracksInteractorImpl
 import com.practicum.playlistmaker.search.domain.TracksInteractor
 import com.practicum.playlistmaker.settings.domain.Impl.SettingsInteractorImpl
@@ -17,5 +19,7 @@ val interactorModule = module {
     singleOf(::PlayerInteractorImpl).bind<PlayerInteractor>()
 
     singleOf(::SettingsInteractorImpl).bind<SettingsInteractor>()
+
+    singleOf(::FavoritesInteractorImpl).bind<FavoritesInteractor>()
 
 }
