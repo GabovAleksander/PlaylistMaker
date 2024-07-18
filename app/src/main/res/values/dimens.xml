@@ -27,6 +27,7 @@
     <dimen name="heightTextView">20dp</dimen>
     <dimen name="marginTextView">20dp</dimen>
     <dimen name="marginStart">16dp</dimen>
+    <dimen name="margin13dp">13dp</dimen>
     <dimen name="paddingErrMessageTop">100dp</dimen>
     <dimen name="marginTitle">8dp</dimen>
     <dimen name="marginTrackName">24dp</dimen>
