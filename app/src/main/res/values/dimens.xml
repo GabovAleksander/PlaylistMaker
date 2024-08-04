@@ -36,4 +36,27 @@
     <dimen name="bottomMenuIconSize">24dp</dimen>
     <dimen name="bottomMenuMargin">8dp</dimen>
     <dimen name="bottomMenuHeight">56dp</dimen>
+    <dimen name="stroke_width_1">1dp</dimen>
+    <dimen name="img_size_160">160dp</dimen>
+    <dimen name="constraintGuide_16">16dp</dimen>
+    <dimen name="image_size_45dp">45dp</dimen>
+    <dimen name="text_size_11">11sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_19">19sp</dimen>
+    <dimen name="text_size_22">22sp</dimen>
+    <dimen name="margin_1">1dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_28">24dp</dimen>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="corner_radius_2">2dp</dimen>
+    <dimen name="corner_radius_4">4dp</dimen>
+    <dimen name="corner_radius_8">8dp</dimen>
+    <dimen name="corner_radius_16">16dp</dimen>
 </resources>
