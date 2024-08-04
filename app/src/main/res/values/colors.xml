@@ -8,4 +8,8 @@
     <color name="blue">#3772E7</color>
     <color name="blueLight">#9FBBF3</color>
     <color name="gray">#AEAFB4</color>
+    <color name="snackbar">#FF000000</color>
+    <color name="snackbar_text">#FFFFFFFF</color>
+    <color name="box_stroke">#AEAFB4</color>
+    <color name="box_text">#FF000000</color>
 </resources>
