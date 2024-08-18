@@ -54,6 +54,11 @@ class PlaylistsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updatePlaylists()
+    }
+
     private fun render(state: PlaylistsScreenState) {
         when (state) {
             is PlaylistsScreenState.Content -> showContent(state.playlists)
@@ -86,7 +91,7 @@ class PlaylistsFragment : Fragment() {
 
     private fun initAdapter() {
         binding.recyclerViewPlaylist.adapter = playlistsAdapter
-        binding.recyclerViewPlaylist.addItemDecoration(PlaylistsOffsetItemDecoration(requireContext()))
+        //binding.recyclerViewPlaylist.addItemDecoration(PlaylistsOffsetItemDecoration(requireContext()))
     }
 
     private fun clickOnPlaylist() {

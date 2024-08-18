@@ -24,20 +24,19 @@ class PlaylistsViewModel(private val interactor: PlaylistsInteractor) :
 
     private fun fillData() {
         viewModelScope.launch(Dispatchers.IO) {
-            interactor
-                .getPlaylists()
-                .collect { playlists ->
-                    processResult(playlists)
-                }
+            updatePlaylists()
         }
 
     }
 
-    private fun processResult(playlists: List<Playlist>) {
-        if (playlists.isEmpty()) {
-            _contentFlow.value = (PlaylistsScreenState.Empty)
-        } else {
-            _contentFlow.value = (PlaylistsScreenState.Content(playlists))
+    fun updatePlaylists() {
+        viewModelScope.launch {
+            val playlists = interactor.getPlaylists()
+            if (playlists.isEmpty()) {
+                _contentFlow.value = (PlaylistsScreenState.Empty)
+            } else {
+                _contentFlow.value = (PlaylistsScreenState.Content(playlists))
+            }
         }
     }
 

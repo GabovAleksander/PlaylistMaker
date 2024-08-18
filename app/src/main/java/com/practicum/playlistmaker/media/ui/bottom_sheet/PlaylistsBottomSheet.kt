@@ -92,7 +92,7 @@ class PlaylistsBottomSheet : BottomSheetDialogFragment() {
         when (state) {
             is BottomSheetState.AddedAlready -> {
                 val message =
-                    getString(R.string.already_added) + " \"" + state.playlistModel.playlistName + "\" "
+                    getString(R.string.already_added) + " \"" + state.playlistModel.name + "\" "
                 Toast
                     .makeText(requireContext(), message, Toast.LENGTH_SHORT)
                     .show()
@@ -100,7 +100,7 @@ class PlaylistsBottomSheet : BottomSheetDialogFragment() {
 
             is BottomSheetState.AddedNow -> {
                 val message =
-                    getString(R.string.added) + " \"" + state.playlistModel.playlistName + "\" "
+                    getString(R.string.added) + " \"" + state.playlistModel.name + "\" "
 
                 showMessage(message)
                 dialog?.cancel()

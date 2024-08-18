@@ -36,6 +36,7 @@
     <dimen name="bottomMenuIconSize">24dp</dimen>
     <dimen name="bottomMenuMargin">8dp</dimen>
     <dimen name="bottomMenuHeight">56dp</dimen>
+    <dimen name="switchMinSize">56dp</dimen>
     <dimen name="stroke_width_1">1dp</dimen>
     <dimen name="img_size_160">160dp</dimen>
     <dimen name="constraintGuide_16">16dp</dimen>

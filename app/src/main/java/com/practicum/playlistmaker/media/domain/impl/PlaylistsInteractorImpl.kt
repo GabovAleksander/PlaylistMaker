@@ -1,25 +1,35 @@
 package com.practicum.playlistmaker.media.domain.impl
 
+import android.net.Uri
 import com.practicum.playlistmaker.media.domain.PlaylistsInteractor
 import com.practicum.playlistmaker.media.domain.PlaylistsRepository
 import com.practicum.playlistmaker.new_playlist.domain.models.Playlist
 import com.practicum.playlistmaker.search.domain.Track
-import kotlinx.coroutines.flow.Flow
+import java.net.URI
 
 class PlaylistsInteractorImpl(
     private val repository: PlaylistsRepository,
 ) : PlaylistsInteractor {
 
-    override fun getPlaylists(): Flow<List<Playlist>> {
-        return repository.getSavedPlaylists()
-    }
+    override suspend fun createPlaylist(playlistName: String, playlistDescription: String, imageUri: Uri) =
+        repository.createPlaylist(playlistName, playlistDescription, imageUri)
 
-    override fun isTrackAlreadyExists(playlist: Playlist, track: Track) =
-        playlist.trackList.contains(track)
+    override suspend fun addTrack(track: Track, playlistId: Int) =
+        repository.addTrack(track, playlistId)
 
-    override suspend fun addTrackToPlaylist(playlist: Playlist, track: Track) {
-        playlist.trackList = playlist.trackList + track
-        playlist.tracksCount = playlist.trackList.size
-        repository.updateTracks(playlist)
+    override suspend fun isTrackAlreadyExists(trackId : Int, playlistId: Int) : Boolean=
+        repository.isTrackAlreadyExists(trackId, playlistId)
+
+    override suspend fun getPlaylists(): List<Playlist> =
+        repository.getPlaylists()
+
+    override suspend fun getPlaylist(playlistId: Int) : Playlist =
+        repository.getPlaylist(playlistId)
+
+    override suspend fun getPlaylistTracks(playlistId: Int): List<Track> =
+        repository.getPlaylistTracks(playlistId)
+
+    override suspend fun updatePlaylist(playlistId: Int, playlistName: String, playlistDescription: String, imageUri: Uri) {
+        repository.updatePlaylist(playlistId, playlistName, playlistDescription, imageUri)
     }
 }

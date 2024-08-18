@@ -12,4 +12,5 @@
     <color name="snackbar_text">#FFFFFFFF</color>
     <color name="box_stroke">#AEAFB4</color>
     <color name="box_text">#FF000000</color>
+    <color name="red">#FF0000</color>
 </resources>

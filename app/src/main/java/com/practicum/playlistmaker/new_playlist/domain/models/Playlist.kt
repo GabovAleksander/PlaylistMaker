@@ -1,12 +1,25 @@
 package com.practicum.playlistmaker.new_playlist.domain.models
 
-import com.practicum.playlistmaker.search.domain.Track
+import java.io.Serializable
 
 data class Playlist(
-    val id: Int,
-    val coverImageUrl: String,
-    val playlistName: String,
-    val playlistDescription:String,
-    var trackList: List<Track>,
-    var tracksCount: Int,
-)
+    val playlistId: Int,
+    val name: String,
+    val description: String,
+    val cover: String?,
+    var tracksCount: Int
+) : Serializable
+{
+
+    override fun equals(other: Any?): Boolean {
+        return if (other !is Playlist) {
+            false
+        } else {
+            other.playlistId == playlistId
+        }
+    }
+
+    override fun hashCode(): Int {
+        return playlistId
+    }
+}

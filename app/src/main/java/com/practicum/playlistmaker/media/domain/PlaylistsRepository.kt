@@ -1,14 +1,22 @@
 package com.practicum.playlistmaker.media.domain
 
+import android.net.Uri
 import com.practicum.playlistmaker.new_playlist.domain.models.Playlist
-import kotlinx.coroutines.flow.Flow
+import com.practicum.playlistmaker.search.domain.Track
+import java.net.URI
 
 interface PlaylistsRepository {
-    suspend fun createPlaylist(playlist: Playlist)
+    suspend fun createPlaylist(playlistName: String, playlistDescription: String, imageUri: Uri)
 
-    suspend fun deletePlaylist(playlist: Playlist)
+    suspend fun addTrack(track: Track, playlistId: Int)
 
-    suspend fun updateTracks(playlist: Playlist)
+    suspend fun isTrackAlreadyExists(trackId: Int, playlistId: Int): Boolean
 
-    fun getSavedPlaylists(): Flow<List<Playlist>>
+    suspend fun getPlaylist(playlistId: Int): Playlist
+
+    suspend fun getPlaylistTracks(playlistId: Int): List<Track>
+
+    suspend fun getPlaylists(): List<Playlist>
+
+    suspend fun updatePlaylist(playlistId: Int, playlistName: String, playlistDescription: String, imageUri: Uri)
 }

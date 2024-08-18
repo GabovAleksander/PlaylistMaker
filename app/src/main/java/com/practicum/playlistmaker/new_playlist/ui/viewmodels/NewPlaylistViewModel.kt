@@ -1,14 +1,15 @@
 package com.practicum.playlistmaker.new_playlist.ui.viewmodels
 
 import android.Manifest
+import android.net.Uri
 import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
+import com.practicum.playlistmaker.media.domain.PlaylistsInteractor
 import com.practicum.playlistmaker.new_playlist.domain.NewPlaylistInteractor
 import com.practicum.playlistmaker.new_playlist.domain.models.PermissionsResultState
-import com.practicum.playlistmaker.new_playlist.domain.models.Playlist
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -29,7 +30,7 @@ class NewPlaylistViewModel(
     )
     val permissionStateFlow = _permissionStateFlow.asSharedFlow()
 
-    private var coverImageUrl = ""
+    private var coverImageUrl = Uri.EMPTY
     private var playlistName = ""
     private var playlistDescription = ""
     private var tracksCount = 0
@@ -84,27 +85,22 @@ class NewPlaylistViewModel(
 
     fun onCreateBtnClicked() {
         viewModelScope.launch {
-            interactor.create(
-                Playlist(
-                    id = 0,
-                    coverImageUrl = coverImageUrl,
-                    playlistName = playlistName,
-                    playlistDescription = playlistDescription,
-                    trackList = emptyList(),
-                    tracksCount = tracksCount
-                )
+            interactor.createPlaylist(
+                playlistName = playlistName,
+                playlistDescription = playlistDescription,
+                imageUri = coverImageUrl
             )
             _screenStateFlow.emit(ScreenState.AllowedToGoOut)
         }
     }
 
-    fun saveImageUri(uri: URI) {
-        coverImageUrl = uri.toString()
+    fun saveImageUri(uri: Uri) {
+        coverImageUrl = uri
     }
 
     fun onBackPressed() {
 
-        if (coverImageUrl.isNotEmpty() || playlistName.isNotEmpty() || playlistDescription.isNotEmpty()) {
+        if (coverImageUrl.toString().isNotEmpty() || playlistName.isNotEmpty() || playlistDescription.isNotEmpty()) {
             _screenStateFlow.tryEmit(ScreenState.NeedsToAsk)
         } else {
             _screenStateFlow.tryEmit(ScreenState.AllowedToGoOut)

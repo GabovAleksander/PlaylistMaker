@@ -6,8 +6,6 @@
     <LinearLayout
         style="@style/layoutUp">
 
-
-
         <TextView
             android:text="@string/media"
             style="@style/header"/>

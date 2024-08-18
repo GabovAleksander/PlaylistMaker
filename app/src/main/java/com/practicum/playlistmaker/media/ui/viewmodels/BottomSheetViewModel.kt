@@ -23,23 +23,23 @@ class BottomSheetViewModel(
     }
 
     fun onPlaylistClicked(playlist: Playlist, track: Track) {
-        if (interactor.isTrackAlreadyExists(playlist, track)) {
+        viewModelScope.launch {
+        if (interactor.isTrackAlreadyExists(track.trackId,playlist.playlistId)) {
             _contentFlow.value = BottomSheetState.AddedAlready(playlist)
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-                interactor.addTrackToPlaylist(playlist, track)
+                interactor.addTrack(track,playlist.playlistId)
                 _contentFlow.value = BottomSheetState.AddedNow(playlist)
             }
         }
+            }
     }
 
     private fun fillData() {
         viewModelScope.launch(Dispatchers.IO) {
-            interactor
+            processResult(interactor
                 .getPlaylists()
-                .collect { playlists ->
-                    processResult(playlists)
-                }
+            )
         }
     }
 

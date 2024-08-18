@@ -1,44 +1,158 @@
 package com.practicum.playlistmaker.media.data.impl
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Environment
 import com.practicum.playlistmaker.media.data.db.DataBase
 import com.practicum.playlistmaker.media.data.db.entity.DataMapper
 import com.practicum.playlistmaker.media.data.db.entity.PlaylistEntity
+import com.practicum.playlistmaker.media.data.db.entity.PlaylistWithCountTracks
+import com.practicum.playlistmaker.media.data.db.entity.PlaylistsTrackEntity
+import com.practicum.playlistmaker.media.data.db.entity.TrackPlaylistEntity
 import com.practicum.playlistmaker.media.domain.PlaylistsRepository
 import com.practicum.playlistmaker.new_playlist.domain.models.Playlist
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.practicum.playlistmaker.search.domain.Track
+import java.io.File
+import java.io.FileOutputStream
+import java.net.URI
+import java.util.Calendar
 
 class PlaylistsRepositoryImpl (
     private val database: DataBase,
     private val playlistMapper: DataMapper,
+    private val context: Context
     ) : PlaylistsRepository {
 
-        override suspend fun createPlaylist(playlist: Playlist) {
+    private val filePath = File(
+        context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+        PLAYLISTS_IMAGES
+    )
+
+    override suspend fun createPlaylist(
+        playlistName: String,
+        playlistDescription: String,
+        imageUri: Uri
+    ) {
+        var imageFileName: String? = null
+        if (imageUri.toString().isNotEmpty()) {
+            imageFileName = saveAlbumImage(imageUri)
+        }
             database
                 .playlistsDao()
-                .insertPlaylist(playlistMapper.map(playlist))
+                .insertPlaylist(
+                    PlaylistEntity(
+                        null,
+                        playlistName,
+                        playlistDescription,
+                        imageFileName,
+                    )
+                )
         }
 
-        override suspend fun deletePlaylist(playlist: Playlist) {
+    override suspend fun addTrack(track: Track, playlistId: Int) =
+        database
+            .playlistsDao()
+            .addTrack(
+                playlistsTrackEntity = playlistMapper.map(track),
+                trackPlaylistEntity = TrackPlaylistEntity(null, playlistId, track.trackId)
+            )
+
+    override suspend fun isTrackAlreadyExists(trackId: Int, playlistId: Int): Boolean =
+        database
+            .playlistsDao()
+            .isTrackAlreadyExists(trackId, playlistId)
+
+
+    override suspend fun getPlaylists(): List<Playlist> =
+        convertPlaylistWithCountTracksToPlaylist(
             database
                 .playlistsDao()
-                .deletePlaylist(playlistMapper.map(playlist))
-        }
+                .getPlaylists()
+        )
 
-        override suspend fun updateTracks(playlist: Playlist) {
+    override suspend fun getPlaylist(playlistId: Int): Playlist =
+        playlistMapper.map(
             database
                 .playlistsDao()
-                .updatePlaylist(playlistMapper.map(playlist))
-        }
+                .getPlaylist(playlistId)
+        )
 
-        override fun getSavedPlaylists(): Flow<List<Playlist>> {
-            return database
+    override suspend fun getPlaylistTracks(playlistId: Int): List<Track> =
+        convertPlaylistsTrackEntityToTrack(
+            database
                 .playlistsDao()
-                .getSavedPlaylists()
-                .map { convertFromTrackEntity(it) }
+                .getPlaylistTracks(playlistId)
+        )
+
+
+    override suspend fun updatePlaylist(
+        playlistId: Int,
+        playlistName: String,
+        playlistDescription: String,
+        imageUri: Uri
+    ) {
+        val playlist = database
+                .playlistsDao()
+            .getPlaylist(playlistId)
+
+        var imageFileName = playlist.cover
+        if (imageUri.toString().isNotEmpty()) {
+            if (playlist.cover != null) {
+                deleteAlbumImage(playlist.cover)
+            }
+            imageFileName = saveAlbumImage(imageUri)
         }
 
-        private fun convertFromTrackEntity(playlists: List<PlaylistEntity>): List<Playlist> {
-            return playlists.map { playlistMapper.map(it) }
+        database
+            .playlistsDao()
+            .updatePlaylist(
+                PlaylistEntity(
+                    playlistId,
+                    playlistName,
+                    playlistDescription,
+                    imageFileName
+                )
+            )
+    }
+
+    private fun convertPlaylistsTrackEntityToTrack(tracks: List<PlaylistsTrackEntity>): List<Track> =
+        tracks.map {
+            playlistMapper.map(it)
         }
+
+    private fun convertPlaylistWithCountTracksToPlaylist(playListWithCountTracks: List<PlaylistWithCountTracks>): List<Playlist> =
+        playListWithCountTracks.map {
+            playlistMapper.map(it)
+        }
+
+    private fun saveAlbumImage(uri: Uri): String {
+        val imageFileName = Calendar.getInstance().timeInMillis.toString() + ".jpg"
+        if (!filePath.exists()) {
+            filePath.mkdirs()
+        }
+        BitmapFactory
+            .decodeStream(
+                context.contentResolver.openInputStream(uri)
+            )
+            .compress(
+                Bitmap.CompressFormat.JPEG,
+                QUALITY_IMAGE,
+                FileOutputStream(
+                    File(filePath, imageFileName)
+                )
+            )
+        return imageFileName
+        }
+
+    private fun deleteAlbumImage(imageFileName: String) {
+        if (File(filePath, imageFileName).exists()) {
+            File(filePath, imageFileName).delete()
+        }
+    }
+    companion object{
+        val QUALITY_IMAGE=30
+        val PLAYLISTS_IMAGES = "playlist_images"
+    }
 }

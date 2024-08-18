@@ -8,7 +8,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-fun ImageView.setImage(url: String, placeholder: Int, cornerRadius: Int) {
+fun ImageView.setImage(url: String?, placeholder: Int, cornerRadius: Int) {
     Glide
         .with(this.context)
         .load(url)

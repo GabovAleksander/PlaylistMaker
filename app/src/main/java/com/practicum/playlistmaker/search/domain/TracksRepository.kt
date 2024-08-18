@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.search.domain
 
 import com.practicum.playlistmaker.Resource
-import com.practicum.playlistmaker.player.domain.TrackDto
 import kotlinx.coroutines.flow.Flow
 
 

@@ -38,29 +38,48 @@ class DataMapper {
         )
     }
 
-    fun map(playlist: Playlist): PlaylistEntity {
-        return with(playlist) {
-            PlaylistEntity(
-                id = id,
-                playlistName = playlistName,
-                playlistDescription = playlistDescription,
-                imageUrl = coverImageUrl,
-                trackList = Json.encodeToString(trackList),
-                countTracks = tracksCount,
-                Calendar.getInstance().timeInMillis,
+    fun map(playlistWithCountTracks: PlaylistWithCountTracks): Playlist {
+        playlistWithCountTracks.apply {
+            return Playlist(
+                playlistId!!,
+                name,
+                description,
+                cover,
+                tracksCount,
             )
         }
     }
 
-    fun map(playlist: PlaylistEntity): Playlist {
-        return with(playlist) {
-            Playlist(
-                id = id,
-                playlistName = playlistName,
-                playlistDescription = playlistDescription,
-                coverImageUrl = imageUrl,
-                trackList = Json.decodeFromString(trackList),
-                tracksCount = countTracks,
+    fun map(playListsTrackEntity: PlaylistsTrackEntity): Track {
+        playListsTrackEntity.apply {
+            return Track(
+                trackId,
+                trackName,
+                artistName,
+                trackTimeMillis,
+                artworkUrl100,
+                collectionName,
+                releaseDate,
+                primaryGenreName,
+                country,
+                previewUrl
+            )
+        }
+    }
+
+    fun map(track: Track): PlaylistsTrackEntity {
+        track.apply {
+            return PlaylistsTrackEntity(
+                trackId,
+                trackName,
+                artistName,
+                trackTimeMillis,
+                artworkUrl100,
+                collectionName,
+                releaseDate,
+                primaryGenreName,
+                country,
+                previewUrl,
             )
         }
     }

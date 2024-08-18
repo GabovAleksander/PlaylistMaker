@@ -1,22 +1,21 @@
 package com.practicum.playlistmaker.media.data.db.entity
 
-import androidx.annotation.Keep
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Keep
 @Entity(tableName = "playlist")
 data class PlaylistEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    @ColumnInfo(name = "playlist_name")
-    val playlistName: String,
-    @ColumnInfo(name = "playlist_description")
-    val playlistDescription: String,
-    @ColumnInfo(name = "cover_path")
-    val imageUrl: String,
-    val trackList: String,
-    val countTracks: Int,
-    val saveDate: Long
+    val playlistId: Int?,
+    val name: String,
+    val description: String,
+    val cover: String?,
+)
+
+data class PlaylistWithCountTracks(
+    val playlistId: Int?,
+    val name: String,
+    val description: String,
+    val cover: String?,
+    val tracksCount: Int,
 )

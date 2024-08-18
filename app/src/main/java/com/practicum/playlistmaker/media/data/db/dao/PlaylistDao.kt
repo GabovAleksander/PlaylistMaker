@@ -5,8 +5,12 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.practicum.playlistmaker.media.data.db.entity.PlaylistEntity
+import com.practicum.playlistmaker.media.data.db.entity.PlaylistWithCountTracks
+import com.practicum.playlistmaker.media.data.db.entity.PlaylistsTrackEntity
+import com.practicum.playlistmaker.media.data.db.entity.TrackPlaylistEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,13 +19,37 @@ interface PlaylistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaylist(playlist: PlaylistEntity)
 
+    @Insert(entity = PlaylistsTrackEntity::class, onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addPlaylistsTrack(playlistsTrackEntity: PlaylistsTrackEntity)
+
+    @Insert(entity = TrackPlaylistEntity::class)
+    suspend fun addTrackPlaylist(trackPlaylistEntity: TrackPlaylistEntity)
+
+    @Transaction
+    suspend fun addTrack(
+        playlistsTrackEntity: PlaylistsTrackEntity,
+        trackPlaylistEntity: TrackPlaylistEntity
+    ) {
+        addPlaylistsTrack(playlistsTrackEntity)
+        addTrackPlaylist(trackPlaylistEntity)
+    }
+
+    @Query("SELECT EXISTS (SELECT 1 FROM playlists_track  WHERE trackId = :trackId AND playlistId = :playlistId)")
+    suspend fun isTrackAlreadyExists(trackId: Int, playlistId: Int): Boolean
+
     @Delete
     suspend fun deletePlaylist(playlist: PlaylistEntity):Int
 
     @Update
     suspend fun updatePlaylist(playlist: PlaylistEntity):Int
 
-    @Query("SELECT * FROM playlist ORDER BY saveDate DESC;")
-    fun getSavedPlaylists(): Flow<List<PlaylistEntity>>
+    @Query("SELECT playlistId, name, description, cover, (SELECT COUNT(id) FROM playlists_track WHERE playlists_track.playlistId=playlist.playlistId) as tracksCount FROM playlist ORDER BY playlistId DESC")
+    suspend fun getPlaylists(): List<PlaylistWithCountTracks>
+
+    @Query("SELECT playlistId, name, description, cover, (SELECT COUNT(id) FROM playlists_track WHERE playlists_track.playListId=playlist.playlistId) as tracksCount FROM playlist WHERE playlistId = :playlistId")
+    suspend fun getPlaylist(playlistId: Int): PlaylistWithCountTracks
+
+    @Query("SELECT track_playlists.* FROM track_playlists LEFT JOIN playlists_track ON track_playlists.trackId=playlists_track.trackId WHERE playlists_track.playListId = :playlistId  ORDER BY playlists_track.id DESC")
+    suspend fun getPlaylistTracks(playlistId: Int): List<PlaylistsTrackEntity>
 
 }

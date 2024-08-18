@@ -16,6 +16,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -186,7 +187,7 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun showDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(),R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
             .setTitle(getString(R.string.title_playlist_dialog))
             .setMessage(getString(R.string.message_playlist_dialog))
             .setNeutralButton(getString(R.string.cancel)) { _, _ -> }
@@ -209,7 +210,7 @@ class NewPlaylistFragment : Fragment() {
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, QUALITY_IMAGE, outputStream)
 
-        viewModel.saveImageUri(file.toURI())
+        viewModel.saveImageUri(file.toUri())
     }
 
     private fun showAndroidXSnackbar(playlistName: String) {

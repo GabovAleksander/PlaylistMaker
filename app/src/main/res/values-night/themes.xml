@@ -13,5 +13,4 @@
         <item name="colorSecondaryVariant">@color/white</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
-
 </resources>

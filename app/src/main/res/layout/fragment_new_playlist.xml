@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:hint="@string/name"
+        app:cursorColor="@color/blue"
         app:boxStrokeColor="@color/text_not_stroke"
         app:hintTextColor="@color/text_not"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
@@ -90,7 +91,8 @@
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textCursorDrawable="@drawable/cursor"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -100,6 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
         android:hint="@string/description"
+        app:cursorColor="@color/blue"
         app:boxStrokeColor="@color/text_not_stroke"
         app:hintTextColor="@color/text_not"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
@@ -116,7 +119,8 @@
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textCursorDrawable="@drawable/cursor"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
