@@ -298,4 +298,18 @@
     <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/blue</item>
     </style>
+
+    <style name="panelHeaderToolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_4</item>
+        <item name="android:layout_marginBottom">@dimen/margin_24</item>
+        <item name="android:background">?attr/colorSecondary</item>
+        <item name="titleTextAppearance">@style/textPanelHeader</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="titleMarginStart">@dimen/margin_16</item>
+        <item name="navigationIconTint">@color/white</item>
+    </style>
+
 </resources>

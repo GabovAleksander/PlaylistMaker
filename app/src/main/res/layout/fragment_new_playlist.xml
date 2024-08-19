@@ -23,7 +23,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/constraintGuide_16" />
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/panelHeaderToolbar"
         app:title="@string/new_playlist"

@@ -51,7 +51,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_12"
             android:layout_marginRight="@dimen/margin_12"
-            android:padding="@dimen/padding_4"
             android:useDefaultMargins="true"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

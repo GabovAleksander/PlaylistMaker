@@ -7,20 +7,23 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorSecondary"
     android:theme="@style/Theme.PlaylistMaker"
-    android:layout_marginVertical="@dimen/margin_8"
+    android:layout_marginVertical="@dimen/margin_4"
     android:layout_marginHorizontal="@dimen/margin_4"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:cardElevation="0dp"
         app:cardCornerRadius="@dimen/corner_radius_8">
 
         <ImageView
             android:id="@+id/cover_playlist"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_no_picture_big"
             android:background="?attr/colorSecondary"/>
