@@ -6,6 +6,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
+import com.practicum.playlistmaker.media.ui.bottom_sheet.PlaylistsBottomSheet
 import com.practicum.playlistmaker.search.domain.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -79,6 +82,7 @@ class PlayerFragment : Fragment() {
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
         }
+        initAddToPlaylistButton()
     }
 
     private fun render(state: PlayerScreenState) {
@@ -163,7 +167,14 @@ class PlayerFragment : Fragment() {
         super.onPause()
         viewModel.pausePlayer()
     }
-
+    private fun startAnimation(button: ImageView) {
+        button.startAnimation(
+            AnimationUtils.loadAnimation(
+                requireContext(),
+                R.anim.scale
+            )
+        )
+    }
     private fun renderLikeButton(isFavorite: Boolean) {
         if (isFavorite)
             binding.buttonLike.background = AppCompatResources.getDrawable(
@@ -174,6 +185,15 @@ class PlayerFragment : Fragment() {
             binding.root.context,
             R.drawable.button_heart_inactive
         )
+    }
+
+    private fun initAddToPlaylistButton() {
+        binding.buttonCheck.setOnClickListener { button ->
+            (button as? ImageView)?.let { startAnimation(it) }
+            findNavController().navigate(
+                R.id.action_audioPlayerFragment_to_bottomSheet, PlaylistsBottomSheet.createArgs(track)
+            )
+        }
     }
 
     fun dpToPx(dp: Float, context: Context): Int {

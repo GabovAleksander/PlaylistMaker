@@ -1,6 +1,4 @@
-package com.practicum.playlistmaker.player.domain
-
-import java.io.Serializable
+package com.practicum.playlistmaker.player.data
 
 data class TrackDto(
     val trackId: Int,
@@ -14,6 +12,6 @@ data class TrackDto(
     val primaryGenreName: String, // Жанр
     val country: String, // Страна
     var like: Boolean = false
-) : Serializable {
+) {
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 }

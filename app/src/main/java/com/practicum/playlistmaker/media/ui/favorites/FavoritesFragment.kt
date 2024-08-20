@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.media.ui.fragments
+package com.practicum.playlistmaker.media.ui.favorites
 
 import android.annotation.SuppressLint
 import android.os.Bundle

@@ -1,7 +1,7 @@
 package com.practicum.playlistmaker.media.data.impl
 
 import com.practicum.playlistmaker.media.data.db.DataBase
-import com.practicum.playlistmaker.media.data.db.entity.TrackMapper
+import com.practicum.playlistmaker.media.data.db.entity.DataMapper
 import com.practicum.playlistmaker.media.data.db.entity.TrackEntity
 import com.practicum.playlistmaker.media.domain.FavoritesRepository
 import com.practicum.playlistmaker.search.domain.Track
@@ -11,7 +11,7 @@ import java.util.Calendar
 
 class FavoritesRepositoryImpl(
     private val database: DataBase,
-    private val mapper: TrackMapper,
+    private val mapper: DataMapper,
 ) : FavoritesRepository {
     override suspend fun saveTrack(track: Track) {
         database

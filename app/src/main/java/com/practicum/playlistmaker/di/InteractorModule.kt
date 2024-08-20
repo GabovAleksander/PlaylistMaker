@@ -4,8 +4,12 @@ import com.practicum.playlistmaker.player.domain.Impl.PlayerInteractorImpl
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.media.domain.impl.FavoritesInteractorImpl
 import com.practicum.playlistmaker.media.domain.FavoritesInteractor
+import com.practicum.playlistmaker.media.domain.PlaylistsInteractor
 import com.practicum.playlistmaker.search.domain.Impl.TracksInteractorImpl
 import com.practicum.playlistmaker.search.domain.TracksInteractor
+import com.practicum.playlistmaker.media.domain.impl.PlaylistsInteractorImpl
+import com.practicum.playlistmaker.new_playlist.domain.NewPlaylistInteractor
+import com.practicum.playlistmaker.new_playlist.domain.impl.NewPlaylistInteractorImpl
 import com.practicum.playlistmaker.settings.domain.Impl.SettingsInteractorImpl
 import com.practicum.playlistmaker.settings.domain.SettingsInteractor
 import org.koin.core.module.dsl.factoryOf
@@ -23,4 +27,7 @@ val interactorModule = module {
 
     factoryOf(::FavoritesInteractorImpl).bind<FavoritesInteractor>()
 
+    singleOf(::NewPlaylistInteractorImpl).bind<NewPlaylistInteractor>()
+
+    singleOf(::PlaylistsInteractorImpl).bind<PlaylistsInteractor>()
 }

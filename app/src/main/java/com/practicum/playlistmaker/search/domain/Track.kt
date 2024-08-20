@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.search.domain
 
 import java.io.Serializable
 
+@kotlinx.serialization.Serializable
 data class Track(
     val trackId: Int,
     val trackName: String?, // Название композиции
@@ -13,7 +14,7 @@ data class Track(
     val releaseDate: String?, // Год релиза
     val primaryGenreName: String?, // Жанр
     val country: String? // Страна
-) : Serializable {
+){
     override fun equals(other: Any?): Boolean {
         return if (other !is Track) {
             false

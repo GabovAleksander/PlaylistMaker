@@ -18,14 +18,14 @@
         style="@style/settingRow">
 
 
-       <com.google.android.material.switchmaterial.SwitchMaterial
+       <Switch
            android:id="@+id/themeSwitcher"
            style="@style/settingSwitch"
-           android:text="@string/darkTheme"
-           android:layout_gravity="start"
            android:layout_width="match_parent"
-           android:layout_height="match_parent"/>
-    </FrameLayout>
+           android:layout_height="match_parent"
+           android:layout_gravity="start"
+           android:text="@string/darkTheme" />
+   </FrameLayout>
 
     <FrameLayout
         android:id="@+id/buttonShare"

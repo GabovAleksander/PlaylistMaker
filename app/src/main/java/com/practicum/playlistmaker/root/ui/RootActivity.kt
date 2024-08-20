@@ -32,7 +32,12 @@ class RootActivity : AppCompatActivity() {
                 R.id.playerFragment -> {
                     binding.bottomNavigationView.visibility = View.GONE
                 }
-
+                R.id.newPlaylist -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                R.id.bottomSheet -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
                 else -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 }
