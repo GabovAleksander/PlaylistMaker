@@ -6,7 +6,7 @@ import com.practicum.playlistmaker.search.domain.Track
 import java.net.URI
 
 interface PlaylistsRepository {
-    suspend fun createPlaylist(playlistName: String, playlistDescription: String, imageUri: Uri)
+    suspend fun createPlaylist(playlistName: String, playlistDescription: String, imageUri: Uri?)
 
     suspend fun addTrack(track: Track, playlistId: Int)
 
@@ -18,5 +18,9 @@ interface PlaylistsRepository {
 
     suspend fun getPlaylists(): List<Playlist>
 
-    suspend fun updatePlaylist(playlistId: Int, playlistName: String, playlistDescription: String, imageUri: Uri)
+    suspend fun updatePlaylist(playlistId: Int, playlistName: String, playlistDescription: String, imageUri: Uri?)
+
+    suspend fun deleteTrack(trackId: Int, playlistId: Int)
+
+    suspend fun deletePlaylist(playlist: Playlist)
 }

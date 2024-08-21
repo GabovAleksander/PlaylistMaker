@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
+import com.practicum.playlistmaker.media.ui.bottom_sheet.PlaylistMenuBottomSheet
 import com.practicum.playlistmaker.media.ui.bottom_sheet.PlaylistsBottomSheet
+import com.practicum.playlistmaker.new_playlist.domain.models.Playlist
 import com.practicum.playlistmaker.search.domain.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -39,9 +41,8 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         track = viewModel.getTrack()
-        if (track != null) {
-            viewModel.isLike(track.trackId)
-        }
+        viewModel.isLike(track.trackId)
+
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
@@ -148,12 +149,12 @@ class PlayerFragment : Fragment() {
                 dateFormat.format(track.trackTimeMillis)
 
             val date =
-                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())?.parse(track.releaseDate)
-            if (date != null) {
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(track.releaseDate)
+
                 val formattedDatesString =
                     SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
                 year.text = formattedDatesString
-            }
+
 
             if ((track.collectionName ?: "").isNotEmpty()) {
                 album.text = track.collectionName
@@ -190,9 +191,7 @@ class PlayerFragment : Fragment() {
     private fun initAddToPlaylistButton() {
         binding.buttonCheck.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
-            findNavController().navigate(
-                R.id.action_audioPlayerFragment_to_bottomSheet, PlaylistsBottomSheet.createArgs(track)
-            )
+            PlaylistsBottomSheet(track).show(childFragmentManager, "PlaylistsBottomSheet")
         }
     }
 

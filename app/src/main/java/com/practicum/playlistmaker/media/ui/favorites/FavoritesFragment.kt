@@ -19,9 +19,7 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
     private val viewModel by viewModel<FavoritesFragmentViewModel>()
-    private val tracksAdapter = TrackAdapter {
-        clickOnTrack(it)
-    }
+    private val tracksAdapter = TrackAdapter ({clickOnTrack(it)})
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +47,12 @@ class FavoritesFragment : Fragment() {
         if (!viewModel.isClickable) return
         viewModel.addToHistory(track)
         viewModel.onTrackClick()
-        findNavController().navigate(R.id.action_libraryFragment_to_audioPlayer)
+        findNavController().navigate(
+            R.id.action_to_Player,
+            Bundle().apply {
+                putSerializable(TRACK, track)
+            }
+        )
     }
 
 
@@ -76,6 +79,7 @@ class FavoritesFragment : Fragment() {
 
 
     companion object {
+        private const val TRACK="track"
         fun newInstance() = FavoritesFragment()
     }
 }

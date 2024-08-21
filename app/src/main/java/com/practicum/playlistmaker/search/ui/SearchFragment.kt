@@ -22,10 +22,8 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
 
-    private val trackListAdapter = TrackAdapter {
-        clickOnTrack(it)
-    }
-
+    private var searchAdapter = TrackAdapter({ clickOnTrack(it) })
+    private var historyAdapter = TrackAdapter({ clickOnTrack(it) })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -49,12 +47,12 @@ class SearchFragment : Fragment() {
     private fun render(state: SearchState) {
         when (state) {
             is SearchState.Success -> {
-                trackListAdapter.tracks = state.tracks
+                searchAdapter.tracks = state.tracks
                 showContent(Content.SEARCH_RESULT)
             }
 
             is SearchState.ShowHistory -> {
-                trackListAdapter.tracks = state.tracks
+                historyAdapter.tracks = state.tracks
                 showContent(Content.TRACKS_HISTORY)
             }
 
@@ -65,7 +63,6 @@ class SearchFragment : Fragment() {
 
             is SearchState.NothingFound -> showContent(Content.NOT_FOUND)
             is SearchState.Loading -> showContent(Content.LOADING)
-            else -> {}
         }
     }
 
@@ -110,7 +107,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun clearSearch() {
-        trackListAdapter.tracks = listOf()
+        searchAdapter.tracks = listOf()
         binding.editTextSearch.setText("")
         val view = requireActivity().currentFocus
         if (view != null) {
@@ -128,7 +125,7 @@ class SearchFragment : Fragment() {
 
 
     private fun initHistory() {
-        binding.trackList.adapter = trackListAdapter
+        binding.trackList.adapter = historyAdapter
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
         }
@@ -139,7 +136,12 @@ class SearchFragment : Fragment() {
         if (!viewModel.isClickable) return
         viewModel.addToHistory(track)
         viewModel.onTrackClick()
-        findNavController().navigate(R.id.action_searchFragment_to_audioPlayerFragment)
+        findNavController().navigate(
+            R.id.action_to_Player,
+            Bundle().apply {
+                putSerializable(TRACK, track)
+            }
+        )
     }
 
 
@@ -159,7 +161,7 @@ class SearchFragment : Fragment() {
                 binding.errUpdateButton.visibility=View.GONE
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
-                trackListAdapter.tracks= ArrayList<Track>()
+                searchAdapter.tracks= ArrayList<Track>()
             }
 
             Content.ERROR -> {
@@ -179,14 +181,14 @@ class SearchFragment : Fragment() {
             }
 
             Content.TRACKS_HISTORY ->{
-                if(trackListAdapter.tracks.size==0){
+                if(historyAdapter.tracks.size==0){
                     binding.clearHistory.visibility=View.GONE
                     binding.historyHeader.visibility=View.GONE
                 }else{
                     binding.clearHistory.visibility=View.VISIBLE
                     binding.historyHeader.visibility=View.VISIBLE
                 }
-                trackListAdapter.notifyDataSetChanged()
+                historyAdapter.notifyDataSetChanged()
                 binding.trackLayout.visibility = View.VISIBLE
                 binding.trackList.visibility = View.VISIBLE
                 binding.errLayout.visibility = View.GONE
@@ -195,7 +197,7 @@ class SearchFragment : Fragment() {
             Content.SEARCH_RESULT -> {
                 binding.clearHistory.visibility=View.GONE
                 binding.historyHeader.visibility=View.GONE
-                trackListAdapter.notifyDataSetChanged()
+                searchAdapter.notifyDataSetChanged()
                 binding.trackLayout.visibility = View.VISIBLE
                 binding.trackList.visibility = View.VISIBLE
                 binding.errLayout.visibility = View.GONE
@@ -215,6 +217,7 @@ class SearchFragment : Fragment() {
 
     companion object {
         private const val INPUT_TEXT = "INPUT_TEXT"
+        private const val TRACK="track"
     }
 }
 

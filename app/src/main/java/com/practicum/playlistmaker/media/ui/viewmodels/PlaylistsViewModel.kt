@@ -1,5 +1,7 @@
 package com.practicum.playlistmaker.media.ui.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.media.domain.PlaylistsInteractor
@@ -12,36 +14,21 @@ import kotlinx.coroutines.launch
 class PlaylistsViewModel(private val interactor: PlaylistsInteractor) :
     ViewModel() {
 
-    private val _contentFlow: MutableStateFlow<PlaylistsScreenState> =
-        MutableStateFlow(PlaylistsScreenState.Empty)
-    val contentFlow: StateFlow<PlaylistsScreenState> = _contentFlow
+    private val stateLiveData = MutableLiveData<PlaylistsScreenState>()
+    fun observeState(): LiveData<PlaylistsScreenState> = stateLiveData
 
-    var isClickable = true
-
-    init {
-        fillData()
-    }
-
-    private fun fillData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            updatePlaylists()
-        }
-
+    private fun renderState(state: PlaylistsScreenState) {
+        stateLiveData.postValue(state)
     }
 
     fun updatePlaylists() {
         viewModelScope.launch {
             val playlists = interactor.getPlaylists()
             if (playlists.isEmpty()) {
-                _contentFlow.value = (PlaylistsScreenState.Empty)
+                renderState(PlaylistsScreenState.Empty)
             } else {
-                _contentFlow.value = (PlaylistsScreenState.Content(playlists))
+                renderState(PlaylistsScreenState.Content(playlists))
             }
         }
     }
-
-    fun onPlaylistClick() {
-        isClickable = false
-    }
-
 }

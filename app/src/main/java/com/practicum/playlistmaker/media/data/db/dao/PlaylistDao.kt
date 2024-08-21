@@ -52,4 +52,31 @@ interface PlaylistDao {
     @Query("SELECT track_playlists.* FROM track_playlists LEFT JOIN playlists_track ON track_playlists.trackId=playlists_track.trackId WHERE playlists_track.playListId = :playlistId  ORDER BY playlists_track.id DESC")
     suspend fun getPlaylistTracks(playlistId: Int): List<PlaylistsTrackEntity>
 
+    @Query("DELETE FROM playlist WHERE playlistId = :playlistId")
+    suspend fun deletePlaylistFromPlaylist(playlistId: Int)
+
+    @Query("DELETE FROM playlists_track WHERE playlistId = :playlistId")
+    suspend fun deletePlaylistFromTrackPlaylist(playlistId: Int)
+
+    @Query("DELETE FROM track_playlists WHERE trackId NOT IN (SELECT DISTINCT(trackId) FROM playlists_track)")
+    suspend fun clearTracks()
+
+    @Transaction
+    suspend fun deletePlaylist(playlistId: Int) {
+        deletePlaylistFromPlaylist(playlistId)
+        deletePlaylistFromTrackPlaylist(playlistId)
+        clearTracks()
+    }
+
+    @Query("DELETE FROM playlists_track WHERE playlistId = :playlistId AND trackId = :trackId")
+    suspend fun deleteTrackFromTrackPlayList(playlistId: Int, trackId: Int)
+
+    @Transaction
+    suspend fun deleteTrack(
+        trackId: Int,
+        playlistId: Int
+    ) {
+        deleteTrackFromTrackPlayList(playlistId, trackId)
+        clearTracks()
+    }
 }

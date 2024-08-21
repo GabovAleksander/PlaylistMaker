@@ -41,12 +41,14 @@
     <string name="my_playlists">my_playlists</string>
     <string name="created">создан</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
-    <string name="added">Добавлено в плейлист</string>
-    <string name="already_added">Трек уже добавлен в плейлист</string>
+    <string name="added">Добавлено в плейлист  %1$s</string>
+    <string name="already_added">Трек уже добавлен в плейлист  %1$s</string>
     <string name="title_playlist_dialog">Завершить создание плейлиста?</string>
     <string name="message_playlist_dialog">Все несохраненные данные будут потеряны</string>
     <string name="cancel">Отмена</string>
     <string name="complete">Завершить</string>
+    <string name="edit_title">Редактировать</string>
+    <string name="save_playlist">Сохранить</string>
 
     <plurals name="tracks">
         <item quantity="zero">нет треков</item>
@@ -56,4 +58,24 @@
         <item quantity="many">%1$d треков</item>
         <item quantity="other">%1$d треков</item>
     </plurals>
+
+    <plurals name="minutes">
+        <item quantity="zero">%1$d минут</item>
+        <item quantity="one">%1$d минута</item>
+        <item quantity="two">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
+
+    <string name="share_playlist">Поделиться</string>
+    <string name="information">Редактировать информацию</string>
+    <string name="delete">Удалить плейлист</string>
+    <string name="delete_playlist_message">Хотите удалить плейлист</string>
+    <string name="delete_track">Хотите удалить трек?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+
+    <string name="empty_track_list">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="settings_not_found_app">Не найдено подходящих приложений</string>
 </resources>

@@ -11,7 +11,7 @@ class PlaylistsInteractorImpl(
     private val repository: PlaylistsRepository,
 ) : PlaylistsInteractor {
 
-    override suspend fun createPlaylist(playlistName: String, playlistDescription: String, imageUri: Uri) =
+    override suspend fun createPlaylist(playlistName: String, playlistDescription: String, imageUri: Uri?) =
         repository.createPlaylist(playlistName, playlistDescription, imageUri)
 
     override suspend fun addTrack(track: Track, playlistId: Int) =
@@ -29,7 +29,12 @@ class PlaylistsInteractorImpl(
     override suspend fun getPlaylistTracks(playlistId: Int): List<Track> =
         repository.getPlaylistTracks(playlistId)
 
-    override suspend fun updatePlaylist(playlistId: Int, playlistName: String, playlistDescription: String, imageUri: Uri) {
+    override suspend fun updatePlaylist(playlistId: Int, playlistName: String, playlistDescription: String, imageUri: Uri?) {
         repository.updatePlaylist(playlistId, playlistName, playlistDescription, imageUri)
     }
+    override suspend fun deleteTrack(trackId: Int, playlistId: Int) =
+        repository.deleteTrack(trackId, playlistId)
+
+    override suspend fun deletePlaylist(playlist: Playlist) =
+        repository.deletePlaylist(playlist)
 }

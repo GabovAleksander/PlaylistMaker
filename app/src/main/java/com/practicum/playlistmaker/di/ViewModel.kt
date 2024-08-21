@@ -5,8 +5,10 @@ import com.practicum.playlistmaker.search.ui.SearchViewModel
 import com.practicum.playlistmaker.settings.ui.SettingsViewModel
 import com.practicum.playlistmaker.media.ui.MediaViewModel
 import com.practicum.playlistmaker.media.ui.viewmodels.BottomSheetViewModel
+import com.practicum.playlistmaker.media.ui.viewmodels.PlaylistMenuBottomSheetViewModel
 import com.practicum.playlistmaker.media.ui.viewmodels.FavoritesFragmentViewModel
 import com.practicum.playlistmaker.media.ui.viewmodels.PlaylistsViewModel
+import com.practicum.playlistmaker.media.ui.viewmodels.PlaylistViewModel
 import com.practicum.playlistmaker.new_playlist.ui.viewmodels.NewPlaylistViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -30,5 +32,9 @@ val viewModelModule = module {
     viewModelOf(::NewPlaylistViewModel).bind()
 
     viewModelOf(::BottomSheetViewModel).bind()
+
+    viewModelOf(::PlaylistViewModel).bind()
+
+    viewModelOf(::PlaylistMenuBottomSheetViewModel).bind()
 
 }
