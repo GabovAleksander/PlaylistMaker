@@ -33,11 +33,13 @@ class PlaylistsRepositoryImpl (
     override suspend fun createPlaylist(
         playlistName: String,
         playlistDescription: String,
-        imageUri: Uri
+        imageUri: Uri?
     ) {
         var imageFileName: String? = null
         if (imageUri.toString().isNotEmpty()) {
-            imageFileName = saveAlbumImage(imageUri)
+            if (imageUri != null) {
+                imageFileName = saveAlbumImage(imageUri)
+            }
         }
             database
                 .playlistsDao()
@@ -91,7 +93,7 @@ class PlaylistsRepositoryImpl (
         playlistId: Int,
         playlistName: String,
         playlistDescription: String,
-        imageUri: Uri
+        imageUri: Uri?
     ) {
         val playlist = database
                 .playlistsDao()
@@ -102,7 +104,9 @@ class PlaylistsRepositoryImpl (
             if (playlist.cover != null) {
                 deleteAlbumImage(playlist.cover)
             }
-            imageFileName = saveAlbumImage(imageUri)
+            if (imageUri != null) {
+                imageFileName = saveAlbumImage(imageUri)
+            }
         }
 
         database
@@ -151,6 +155,22 @@ class PlaylistsRepositoryImpl (
             File(filePath, imageFileName).delete()
         }
     }
+
+    override suspend fun deleteTrack(trackId: Int, playlistId: Int) {
+        database
+            .playlistsDao()
+            .deleteTrack(trackId, playlistId)
+    }
+
+    override suspend fun deletePlaylist(playlist: Playlist) {
+        playlist.cover?.let {
+            deleteAlbumImage(it)
+        }
+        database
+            .playlistsDao()
+            .deletePlaylist(playlist.playlistId)
+    }
+
     companion object{
         val QUALITY_IMAGE=30
         val PLAYLISTS_IMAGES = "playlist_images"

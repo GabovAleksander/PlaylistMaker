@@ -39,12 +39,14 @@
     <string name="my_playlists">my_playlists</string>
     <string name="created">Created</string>
     <string name="add_to_playlist">Add to playlist</string>
-    <string name="added">Added to playlist</string>
-    <string name="already_added">Track is already in list</string>
+    <string name="added">Added to playlist  %1$s</string>
+    <string name="already_added">Track is already in list  %1$s</string>
     <string name="title_playlist_dialog">Finish to create the list?</string>
     <string name="message_playlist_dialog">All the unsaved data might be lost</string>
     <string name="cancel">Cancel</string>
     <string name="complete">Complete</string>
+    <string name="edit_title">Edit</string>
+    <string name="save_playlist">Save</string>
 
     <plurals name="tracks">
         <item quantity="zero">no tracks</item>
@@ -54,4 +56,24 @@
         <item quantity="many">%1$d tracks</item>
         <item quantity="other">%1$d tracks</item>
     </plurals>
+
+    <plurals name="minutes">
+        <item quantity="zero">%1$d минут</item>
+        <item quantity="one">%1$d минута</item>
+        <item quantity="two">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
+
+    <string name="share_playlist">Share</string>
+    <string name="information">Edit information</string>
+    <string name="delete">Delete playlist</string>
+    <string name="delete_playlist_message">Would you like to delete playlist?</string>
+    <string name="delete_track">Would you like to delete track?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+
+    <string name="empty_track_list">This playlist does not have a list of tracks to share</string>
+    <string name="settings_not_found_app">No matching applications found</string>
 </resources>
