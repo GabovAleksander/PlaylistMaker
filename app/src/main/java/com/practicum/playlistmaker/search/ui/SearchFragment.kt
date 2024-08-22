@@ -22,8 +22,8 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
 
-    private var searchAdapter = TrackAdapter({ clickOnTrack(it) })
-    private var historyAdapter = TrackAdapter({ clickOnTrack(it) })
+    private var adapter = TrackAdapter({ clickOnTrack(it) })
+    //private var historyAdapter = TrackAdapter({ clickOnTrack(it) })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -47,12 +47,12 @@ class SearchFragment : Fragment() {
     private fun render(state: SearchState) {
         when (state) {
             is SearchState.Success -> {
-                searchAdapter.tracks = state.tracks
+                adapter.tracks = state.tracks
                 showContent(Content.SEARCH_RESULT)
             }
 
             is SearchState.ShowHistory -> {
-                historyAdapter.tracks = state.tracks
+                adapter.tracks = state.tracks
                 showContent(Content.TRACKS_HISTORY)
             }
 
@@ -107,7 +107,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun clearSearch() {
-        searchAdapter.tracks = listOf()
+        adapter.tracks = listOf()
         binding.editTextSearch.setText("")
         val view = requireActivity().currentFocus
         if (view != null) {
@@ -125,7 +125,7 @@ class SearchFragment : Fragment() {
 
 
     private fun initHistory() {
-        binding.trackList.adapter = historyAdapter
+        binding.trackList.adapter = adapter
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
         }
@@ -161,7 +161,7 @@ class SearchFragment : Fragment() {
                 binding.errUpdateButton.visibility=View.GONE
                 binding.trackList.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
-                searchAdapter.tracks= ArrayList<Track>()
+                adapter.tracks= ArrayList<Track>()
             }
 
             Content.ERROR -> {
@@ -181,14 +181,14 @@ class SearchFragment : Fragment() {
             }
 
             Content.TRACKS_HISTORY ->{
-                if(historyAdapter.tracks.size==0){
+                if(adapter.tracks.size==0){
                     binding.clearHistory.visibility=View.GONE
                     binding.historyHeader.visibility=View.GONE
                 }else{
                     binding.clearHistory.visibility=View.VISIBLE
                     binding.historyHeader.visibility=View.VISIBLE
                 }
-                historyAdapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
                 binding.trackLayout.visibility = View.VISIBLE
                 binding.trackList.visibility = View.VISIBLE
                 binding.errLayout.visibility = View.GONE
@@ -197,7 +197,7 @@ class SearchFragment : Fragment() {
             Content.SEARCH_RESULT -> {
                 binding.clearHistory.visibility=View.GONE
                 binding.historyHeader.visibility=View.GONE
-                searchAdapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
                 binding.trackLayout.visibility = View.VISIBLE
                 binding.trackList.visibility = View.VISIBLE
                 binding.errLayout.visibility = View.GONE
